@@ -243,7 +243,7 @@ export const enhanceWebcamImage = async (file: File): Promise<string> => {
         contents: {
             parts: [
                 { inlineData: { data: base64Data, mimeType: mimeType } },
-                { text: 'Enhance this webcam photo to improve lighting, clarity, and overall quality, making it look more professional. Apply tone-mapping to balance shadows and highlights.' },
+                { text: 'Isolate the person in this image. Focus exclusively on their face. Enhance the lighting, clarity, and skin tones of the face to achieve a professional, studio-portrait quality. Ignore everything else in the image.' },
             ],
         },
         config: { responseModalities: [Modality.IMAGE, Modality.TEXT] },

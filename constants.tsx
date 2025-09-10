@@ -1,3 +1,4 @@
+// Fix: Refactored constants to improve readability and maintainability.
 import React from 'react';
 
 // Aspect Ratios for UI
@@ -356,15 +357,19 @@ export const EDITING_EXAMPLES = [
 // --- Night City Legends Constants ---
 
 export const NIGHT_CITY_LEGENDS_SCENES = {
+    hedonism: [
+        // Bars, Clubs, Apartments, and Red Light Districts
+        '麗姿酒吧', 'V 的公寓', '扭扭街', '雲頂', '暗物質俱樂部', '朱蒂的公寓', '來生酒吧', 'El Coyote Cojo 酒吧', '威爾斯家的公寓', '迪諾·迪諾維奇的酒吧', 'No-Tell Motel', '共情', '歡愉玩偶的房間', 'V 的狗命鎮公寓', '斯巴達人俱樂部',
+    ],
     nightCity: [
         // Watson
-        '歌舞伎町市集', '麗姿酒吧', '超級摩天樓 H10', 'V 的公寓', '小唐人街', 'NID 卡丁車賽道', '德拉曼總部', '歌舞伎町碼頭', '漩戰幫的食品工廠', '虎鉤眾的道場', '阿洛厄斯·克萊恩的診所', '電玩城', 'No-Tell Motel', 'Jig-Jig Street', '櫻花市集', '貝爾艾爾長者照護中心',
+        '歌舞伎町市集', '超級摩天樓 H10', '小唐人街', 'NID 卡丁車賽道', '德拉曼總部', '歌舞伎町碼頭', '漩戰幫的食品工廠', '虎鉤眾的道場', '阿洛厄斯·克萊恩的診所', '電玩城', '櫻花市集', '貝爾艾爾長者照護中心',
         // Westbrook
-        '日本城', '和歌子的柏青哥店', '雲頂', '暗物質俱樂部', '朱蒂的公寓', '憲章山', '北橡區', '科爾法克斯街天橋', '巨型公司會議室', '豪華空中別墅', 'Westbrook 櫻花園', '日本城碼頭', '虎鉤眾的賭場', '名人街', '科羅納多農場', '水上日式餐廳',
+        '日本城', '和歌子的柏青哥店', '憲章山', '北橡區', '科爾法克斯街天橋', '巨型公司會議室', '豪華空中別墅', 'Westbrook 櫻花園', '日本城碼頭', '虎鉤眾的賭場', '名人街', '科羅納多農場', '水上日式餐廳',
         // City Center
-        '公司廣場', '荒坂塔', '軍用科技大樓', '夜城紀念公園', '市政廳', '公司總部天台', '荒坂塔紀念館', '漢茲的精品店', '中央車站', '迪諾·迪諾維奇的酒吧', '高檔餐廳', '摩天大樓間的空中走廊', 'NCPD 總部', '市長辦公室', '股票交易所',
+        '公司廣場', '荒坂塔', '軍用科技大樓', '夜城紀念公園', '市政廳', '公司總部天台', '荒坂塔紀念館', '漢茲的精品店', '中央車站', '高檔餐廳', '摩天大樓間的空中走廊', 'NCPD 總部', '市長辦公室', '股票交易所',
         // Heywood
-        '維斯塔德佩區', '谷地區', '嗯嗯公園', '來生酒吧', '聖阿馬羅街', '瓦倫提諾幫的街頭派對', 'Heywood 醫療中心', '河谷區的豪宅', 'El Coyote Cojo 酒吧', '威爾斯家的公寓', '天際線與共和路', '城市農場', '海伍德教堂', '海濱長廊', '海景摩天輪',
+        '維斯塔德佩區', '谷地區', '嗯嗯公園', '聖阿馬羅街', '瓦倫提諾幫的街頭派對', 'Heywood 醫療中心', '河谷區的豪宅', '天際線與共和路', '城市農場', '海伍德教堂', '海濱長廊', '海景摩天輪',
         // Santo Domingo
         '亞羅育', '聖多明哥之心', '蘭喬科羅納多', '河床', '戴爾斯工業區', '紅泥沼', 'El Padre 的車庫', '大型發電廠', '機器人工廠', '廢棄的體育場', '貨櫃堆疊區', '聖多明哥的露天電影院', '貧民窟', '河邊的釣魚點', '賽車場',
         // Pacifica
@@ -375,16 +380,31 @@ export const NIGHT_CITY_LEGENDS_SCENES = {
         '賽博精神病屠殺現場', 'NCPD 封鎖線', '地下鐵車站', '貨櫃港口', '豪華賭場', '秘密的 Netrunner 巢穴', '廢棄的購物中心', '屋頂花園', '暴雨中的小巷', '霓虹燈招牌叢林', '高架公路下方', '清道夫的黑市診所', '夜之城巨型紀念碑', '太空發-射中心', '水力發電大壩', '荒坂海濱',
     ],
     dogtown: [
-        '黑市體育場', '重鎚的藏身處', '漢森的總部 (黑藍寶石)', '廢棄的展覽館', 'V 的狗命鎮公寓', '伊麗莎白的診所', '巨型方尖碑', '盧克雷奇亞我的愛麗堂', '破損的公路', 'Kress 街體育場', '高架橋下的貧民窟', '巴蓋斯特巡邏區', '斯巴達人俱樂部', '黃金太平洋大道', '秘密情報交換點', '墜毀的總統專機現場', '地下走私通道', '被遺棄的教堂', '屋頂狙擊點', '狗命鎮的入口檢查站', '廢棄的摩天輪', '重症大樓', '露天市場', '漢森的私人體育館', '地下拳擊場', '巴蓋斯特的軍械庫', '狗命鎮的牆外', '秘密實驗室', '通往體育場的秘密入口', '被水淹沒的地下區域'
+        '黑市體育場', '重鎚的藏身處', '漢森的總部 (黑藍寶石)', '廢棄的展覽館', '伊麗莎白的診所', '巨型方尖碑', '盧克雷奇亞我的愛麗堂', '破損的公路', 'Kress 街體育場', '高架橋下的貧民窟', '巴蓋斯特巡邏區', '黃金太平洋大道', '秘密情報交換點', '地下走私通道', '被遺棄的教堂', '屋頂狙擊點', '狗命鎮的入口檢查站', '廢棄的摩天輪', '重症大樓', '露天市場', '漢森的私人體育館', '地下拳擊場', '巴蓋斯特的軍械庫', '狗命鎮的牆外', '秘密實驗室', '通往體育場的秘密入口', '被水淹沒的地下區域', 
+        '韓遜的體育場指揮中心', '飛蛾酒吧', '狗命鎮檢查站(夜晚)', '黑藍寶Pai對', '狗命鎮正門(白天)', '犯罪活動升級區域', '重鎚俱樂部', '廢棄停車場的伏擊', '俯瞰體育場的狙擊點', '艾瑟的藏身處', '狗命鎮的臨時市場', '韓遜的私人包廂', '巷子裡的改造醫生', 'NUSA 航天飛機墜毀點', '犬魔設施入口', '水壩觀景點', 'V的狗命鎮公寓', '「魔犬」訓練場', '空投補給區', '犬魔設施核心', '無線電塔「針」', '拾荒者在舊樓的巢穴', '克雷斯街橋上的對峙', '「魔犬」的坦克巡邏', '狗命鎮邊界的圍牆', '黑市武器交易', '李德的藏身處', '廢棄公園的寧靜時刻', '密室裡的高賭注牌局', '狗命鎮的駭客窩點', '逃離淹水的地下墓穴', '重鎚俱樂部頂樓', '「魔犬」奇美拉坦克庫', '萬象隨觀的廢墟', '史萊德的秘密藏身處', '在重鎚俱樂部見漢茲先生', '「魔犬」控制的防空砲塔', '探索廢棄的會議中心', '狗命鎮的醫療點', '狗命鎮的雨天街角', '「魔犬」的宣傳螢幕', '體育場市場的槍戰', '潛入「魔犬」基地', '與李德在屋頂的片刻', '韓遜的戰利品室', '狗命鎮窄巷的飛車追逐', '街頭戰鬥的餘波', '黑藍寶石露台的夜景'
     ]
 };
 
 export const NIGHT_CITY_SCENE_PROMPTS = {
+    // Hedonism
+    '麗姿酒吧': 'A strip club and bar in Watson\'s Kabuki district, serving as the headquarters for the Moxes gang and known for its braindance parlor.',
+    'V 的公寓': 'V\'s iconic apartment in the H10 Megabuilding, with its weapon wall, city view, and personal touches.',
+    '扭扭街': 'Night City\'s most famous red-light district, located in Japantown, known for its neon-lit streets and a high concentration of joytoys.',
+    '雲頂': 'A high-end \'dollhouse\' brothel in Japantown, specializing in highly customized companionship and sexual services.',
+    '暗物質俱樂部': 'A high-end nightclub in Westbrook where V can encounter more expensive or specialized joytoys, often related to specific questlines.',
+    '朱蒂的公寓': 'Judy Alvarez\'s cozy, tech-filled apartment overlooking a moody, rain-slicked street.',
+    '來生酒吧': 'The legendary bar for mercenaries in Night City, not a red-light district itself, but a central hub for fixers and mercs where a lot of illicit deals happen.',
+    'El Coyote Cojo 酒吧': 'The Welles family\'s bar, a warm and welcoming place with a strong sense of community.',
+    '威爾斯家的公寓': 'Mama Welles\' apartment, a place filled with memories and tradition.',
+    '迪諾·迪諾維奇的酒吧': 'A smoky, dimly lit bar where fixer Dino Dinovic conducts his business.',
+    'No-Tell Motel': 'A cheap, discreet motel on the edge of Watson, perfect for shady deals.',
+    '共情': 'A braindance club in City Center, offering adult entertainment in a more exclusive and upscale setting compared to other locations.',
+    '歡愉玩偶的房間': 'A private room where a joytoy provides companionship services, typically dimly lit and intimate.',
+    'V 的狗命鎮公寓': 'V\'s new, more tactical apartment in the heart of Dogtown.',
+    '斯巴達人俱樂部': 'A grimy, intense club where Dogtown\'s toughest mercs gather.',
     // Watson
     '歌舞伎町市集': 'A crowded, steamy market in Kabuki, filled with street food stalls, neon signs, and shady vendors.',
-    '麗姿酒吧': 'The iconic Lizzie\'s Bar, with its distinct pink and blue neon lighting and Mox-affiliated clientele.',
     '超級摩天樓 H10': 'The massive H10 Megabuilding, a city within a city, showing the vertical slice of life in Night City.',
-    'V 的公寓': 'V\'s iconic apartment in the H10 Megabuilding, with its weapon wall, city view, and personal touches.',
     '小唐人街': 'The vibrant, lantern-lit streets of Little China, with holographic dragons and traditional architecture mixed with high-tech.',
     'NID 卡丁車賽道': 'A neon-lit underground go-kart racing track, filled with enthusiasts and illegal betting.',
     '德拉曼總部': 'The sleek, futuristic headquarters of the Delamain taxi corporation.',
@@ -393,16 +413,12 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '虎鉤眾的道場': 'A traditional Tyger Claws dojo, where ancient martial arts meet modern cyberware.',
     '阿洛厄斯·克萊恩的診所': 'The cluttered, makeshift ripperdoc clinic of Dr. Fingers.',
     '電玩城': 'A noisy, flashing arcade in Japantown, filled with classic and futuristic games.',
-    'No-Tell Motel': 'A cheap, discreet motel on the edge of Watson, perfect for shady deals.',
     'Jig-Jig Street': 'The infamous Jig-Jig Street at night, a sensory overload of illicit braindances, streetwalkers, and neon signs.',
     '櫻花市集': 'A bustling open-air market with a blend of Japanese cultural goods and high-tech street stalls.',
     '貝爾艾爾長者照護中心': 'A seemingly peaceful senior care facility with hidden secrets within its walls.',
     // Westbrook
     '日本城': 'The bustling, neon-drenched streets of Japantown, a hub of culture, entertainment, and danger.',
     '和歌子的柏青哥店': 'Wakako Okada\'s pachinko parlor, a front for her fixer operations, filled with the sounds of machines and smoke.',
-    '雲頂': 'The Clouds dollhouse, a high-tech, aesthetically pleasing club with a dark secret.',
-    '暗物質俱樂部': 'The exclusive Dark Matter club, frequented by celebrities and corpo elites.',
-    '朱蒂的公寓': 'Judy Alvarez\'s cozy, tech-filled apartment overlooking a moody, rain-slicked street.',
     '憲章山': 'The affluent district of Charter Hill, featuring modern architecture, luxury condos, and expensive cars.',
     '北橡區': 'The luxurious, heavily guarded North Oak district, home to Night City\'s wealthiest celebrities and corpo execs.',
     '科爾法克斯街天橋': 'A high pedestrian overpass in Japantown offering stunning views of the neon cityscape.',
@@ -424,7 +440,6 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '荒坂塔紀念館': 'The memorial site for the Arasaka Tower bombing, a place of reflection and conspiracy.',
     '漢茲的精品店': 'An exclusive, high-fashion boutique in the city center catering to the elite.',
     '中央車站': 'The main Maglev train station in the city center, a hub of transportation and activity.',
-    '迪諾·迪諾維奇的酒吧': 'A smoky, dimly lit bar where fixer Dino Dinovic conducts his business.',
     '高檔餐廳': 'An expensive, luxurious restaurant with a stunning view of the city skyline.',
     '摩天大樓間的空中走廊': 'A glass skybridge connecting two massive skyscrapers, high above the bustling streets.',
     'NCPD 總部': 'The heavily secured headquarters of the Night City Police Department.',
@@ -434,13 +449,10 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '維斯塔德佩區': 'The diverse and vibrant district of Vista Del Rey, with a mix of cultures and communities.',
     '谷地區': 'The Glen, a district with a mix of corpo offices, luxury apartments, and gang territory.',
     '嗯嗯公園': 'A public park in Heywood, a rare patch of green in the dense urban environment.',
-    '來生酒吧': 'The legendary Afterlife bar, a dimly lit haven for mercs and legends, filled with ghosts of the past.',
     '聖阿馬羅街': 'A street in Heywood controlled by the Valentinos, known for its vibrant murals and low-riders.',
     '瓦倫提諾幫的街頭派對': 'A vibrant Valentinos street party, with low-riders, colorful murals, and loud music.',
     'Heywood 醫療中心': 'A large, modern hospital in Heywood, often dealing with the aftermath of street violence.',
     '河谷區的豪宅': 'A luxurious mansion in the wealthier part of The Glen, overlooking the city.',
-    'El Coyote Cojo 酒吧': 'The Welles family\'s bar, a warm and welcoming place with a strong sense of community.',
-    '威爾斯家的公寓': 'Mama Welles\' apartment, a place filled with memories and tradition.',
     '天際線與共和路': 'A major intersection in Heywood, where the monorail runs above the busy streets.',
     '城市農場': 'An urban farm in Heywood, growing food in a controlled, high-tech environment.',
     '海伍德教堂': 'An old, grand church that stands as a relic of the past in the modern city.',
@@ -508,7 +520,7 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '高架公路下方': 'The gritty, shadowy space beneath a massive overpass, a makeshift home for the city\'s forgotten.',
     '清道夫的黑市診所': 'A horrifying Scavenger-run ripperdoc clinic, located in a dirty, undisclosed location.',
     '夜之城巨型紀念碑': 'A colossal monument in the city center, a symbol of corporate power and control.',
-    '太空發射中心': 'The orbital space center, with a rocket ready for launch against a starry sky.',
+    '太空發-射中心': 'The orbital space center, with a rocket ready for launch against a starry sky.',
     '水力發電大壩': 'A massive, imposing hydroelectric dam, a feat of engineering and corporate control.',
     '荒坂海濱': 'The clean, corporate-controlled Arasaka Waterfront, with luxury yachts and a view of the city skyline.',
     // Dogtown
@@ -516,7 +528,6 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '重鎚的藏身處': 'The heavily fortified, industrial hideout of Adam Smasher.',
     '漢森的總部 (黑藍寶石)': 'The luxurious, heavily guarded Black Sapphire, Kurt Hansen\'s headquarters.',
     '廢棄的展覽館': 'An abandoned, eerie exhibition hall in Dogtown, now a battleground.',
-    'V 的狗命鎮公寓': 'V\'s new, more tactical apartment in the heart of Dogtown.',
     '伊麗莎白的診所': 'A hidden, high-tech ripperdoc clinic run by a master craftsman.',
     '巨型方尖碑': 'The massive, imposing obelisk at the center of Dogtown, a symbol of its isolation.',
     '盧克雷奇亞我的愛麗堂': 'The secret underground facility, filled with advanced tech and deadly secrets.',
@@ -524,11 +535,9 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     'Kress 街體育場': 'The main stadium area of Dogtown, a hub of activity and danger.',
     '高架橋下的貧民窟': 'The desperate, makeshift shantytown built in the shadows of Dogtown\'s infrastructure.',
     '巴蓋斯特巡邏區': 'A street heavily patrolled by Kurt Hansen\'s Barghest soldiers.',
-    '斯巴達人俱樂部': 'A grimy, intense club where Dogtown\'s toughest mercs gather.',
     '黃金太平洋大道': 'The main thoroughfare of Dogtown, lined with makeshift shops and military checkpoints.',
     '秘密情報交換點': 'A discreet location for spies and fixers to exchange sensitive information.',
-    '墜毀的總統專機現場': 'The wreckage of Space Force One, a high-stakes salvage and combat zone.',
-    '地下走私通道': 'The dark, dangerous tunnels used for smuggling goods and people in and out of Dogtown.',
+    '地下走私通道': 'The user is in a dark, damp smuggling tunnel beneath the streets of Dogtown, used for moving illicit goods and people.',
     '被遺棄的教堂': 'An old, abandoned church, now used as a hideout or meeting point.',
     '屋頂狙擊點': 'A high vantage point overlooking the chaotic streets of Dogtown.',
     '狗命鎮的入口檢查站': 'The heavily fortified main gate of Dogtown, a symbol of its lawlessness.',
@@ -541,7 +550,57 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '狗命鎮的牆外': 'The desolate no-man\'s-land just outside the walls of Dogtown, littered with mines and wreckage.',
     '秘密實驗室': 'A hidden laboratory where illegal cyberware and biotech experiments are conducted.',
     '通往體育場的秘密入口': 'A concealed entrance leading into the Dogtown stadium, bypassing the main checkpoints.',
-    '被水淹沒的地下區域': 'A flooded underground section of Dogtown, now a silent, eerie labyrinth.'
+    '被水淹沒的地下區域': 'A flooded underground section of Dogtown, now a silent, eerie labyrinth.',
+    "韓遜的體育場指揮中心":"The user is inside Kurt Hansen's command center, high up in the Dogtown stadium. The room is filled with military maps, communication equipment, and a view of his private army.",
+    "飛蛾酒吧":"The user is at The Moth, a smoky, dimly lit spy bar in Dogtown. Fixers and spies exchange information in quiet booths. The atmosphere is tense and secretive.",
+    "狗命鎮檢查站(夜晚)":"The user is trying to sneak through the heavily guarded Dogtown checkpoint at night. Searchlights sweep the area, and Barghest soldiers are on high alert.",
+    "黑藍寶Pai對":"The user is at a lavish, decadent party inside the Black Sapphire. The elite of Night City and beyond are here, making deals under the guise of celebration.",
+    "狗命鎮正門(白天)":"The user is at the bustling main gate of Dogtown during the day. The market is in full swing, and the oppressive presence of Barghest soldiers is everywhere.",
+    "犯罪活動升級區域":"The user is in a \"Increased Criminal Activity\" zone in Dogtown, a chaotic firefight between Barghest and another faction is taking place in the streets.",
+    "重鎚俱樂部":"The user is inside the Heavy Hearts club, a pyramid-shaped building in Dogtown known for its black market cyberware and shady deals.",
+    "廢棄停車場的伏擊":"The user is in a multi-level concrete parking garage, caught in a tense ambush. The sound of gunfire echoes through the enclosed space.",
+    "俯瞰體育場的狙擊點":"The user is in a sniper's nest in a ruined building, looking down at the Dogtown stadium through the scope of a high-powered rifle.",
+    "艾瑟的藏身處":"The user is in Mr. Hands' secret office, a sophisticated and hidden command center from where he orchestrates his operations as the fixer of Dogtown.",
+    "狗命鎮的臨時市場":"The user is in a makeshift street market in Dogtown, where vendors sell everything from scavenged tech to illegal weapons from the back of armored trucks.",
+    "韓遜的私人包廂":"The user is in Kurt Hansen's private box overlooking the stadium, a place of luxury and power from where he watches over his domain.",
+    "巷子裡的改造醫生":"The user is in a grimy, unsanctioned ripperdoc clinic in a Dogtown alley, a place for those who need cyberware installed off the books.",
+    "NUSA 航天飛機墜毀點":"The user is at the crash site of the Space Force One shuttle, a chaotic scene of wreckage, smoke, and NUSA soldiers trying to secure the area.",
+    "墜毀的總統專機現場": "The user is at the crash site of the Space Force One shuttle, a chaotic scene of wreckage, smoke, and NUSA soldiers trying to secure the area.",
+    "犬魔設施入口":"The user is at the heavily guarded entrance to the Cynosure facility, a hidden underground bunker filled with dark pre-Net technology.",
+    "水壩觀景點":"The user is at an observation point overlooking the dam that separates Dogtown from the rest of Night City, a massive concrete structure.",
+    "V的狗命鎮公寓":"The user is in V's safehouse apartment in Dogtown, a small but secure spot to lay low, with a view of the district's chaotic streets.",
+    "「魔犬」訓練場":"The user is at a Barghest training ground, watching Hansen's soldiers run through combat drills and tactical exercises.",
+    "空投補給區":"The user is scrambling for a high-value airdrop in Dogtown, competing with other factions to secure the valuable loot.",
+    "犬魔設施核心":"The user is in the core of the Cynosure facility, a terrifying place where the malevolent AIs of the Blackwall are contained.",
+    "無線電塔「針」":"The user is climbing \"The Needle,\" a massive radio tower in Dogtown, to get a vantage point or to complete a mission.",
+    "拾荒者在舊樓的巢穴":"The user is in a scavenger hideout within a ruined apartment block in Dogtown, a dangerous and dilapidated space.",
+    "克雷斯街橋上的對峙":"The user is on the Kress Street bridge, a key chokepoint in Dogtown, engaged in a tense standoff with enemy forces.",
+    "「魔犬」的坦克巡邏":"The user is hiding as a Barghest Chimera tank patrols the streets of Dogtown, its heavy armor and cannons a formidable presence.",
+    "狗命鎮邊界的圍牆":"The user is looking at the massive, floodlit wall that isolates Dogtown, a stark symbol of its lawless nature.",
+    "黑市武器交易":"The user is at a secret black market deal in Dogtown, buying a powerful and illegal weapon from a shady vendor.",
+    "李德的藏身處":"The user is in Solomon Reed's unassuming hideout, a place that looks ordinary but is filled with spy gadgets and secrets.",
+    "廢棄公園的寧靜時刻":"The user is in a small, overgrown and abandoned park within Dogtown, a rare moment of quiet in the chaotic district.",
+    "密室裡的高賭注牌局":"The user is playing a high-stakes poker game in a secret backroom with some of Dogtown's most dangerous figures.",
+    "狗命鎮的駭客窩點":"The user is in a netrunner's den in Dogtown, a room filled with servers, cables, and multiple computer monitors displaying flowing code.",
+    "逃離淹水的地下墓穴":"The user is making a desperate escape through a flooded, crumbling underground tunnel system beneath Dogtown.",
+    "重鎚俱樂部頂樓":"The user is on the rooftop of the Heavy Hearts club, with a neon-lit view of the Dogtown skyline.",
+    "「魔犬」奇美拉坦克庫":"The user is sneaking through a Barghest hangar filled with Chimera combat tanks undergoing maintenance.",
+    "萬象隨觀的廢墟":"The user is exploring the eerie, abandoned ruins of the Vexelstrom building, a place with a dark history.",
+    "史萊德的秘密藏身處":"The user is in Slider's hidden netrunning den, a place filled with esoteric and powerful old-Net technology.",
+    "在重鎚俱樂部見漢茲先生":"The user is having a secret meeting with Mr. Hands in a private booth at the Heavy Hearts club.",
+    "「魔犬」控制的防空砲塔":"The user is trying to disable a Barghest-controlled anti-aircraft turret that is dominating the Dogtown skyline.",
+    "探索廢棄的會議中心":"The user is exploring a large, abandoned convention center in Dogtown, its halls now silent and decaying.",
+    "狗命鎮的醫療點":"The user is at a makeshift medical clinic in Dogtown, where overworked doctors treat the wounded from the district's constant violence.",
+    "狗命鎮的雨天街角":"The user is on a street corner in Dogtown on a rainy night. The neon signs of the stadium reflect in the puddles on the broken pavement.",
+    "「魔犬」的宣傳螢幕":"The user is standing in front of a giant propaganda screen broadcasting Kurt Hansen's messages to the people of Dogtown.",
+    "體育場市場的槍戰":"The user is in the middle of a chaotic firefight in the crowded stadium market, with civilians scrambling for cover.",
+    "潛入「魔犬」基地":"The user is stealthily infiltrating a heavily guarded Barghest base under the cover of darkness.",
+    "與李德在屋頂的片刻":"The user is having a quiet, tense conversation with Solomon Reed on a rooftop, with the lights of Dogtown spread out below.",
+    "犬魔設施的入口":"The user is at the eerie, high-tech entrance to the Cynosure facility, a gateway to the horrors of the old Net.",
+    "韓遜的戰利品室":"The user is in Kurt Hansen's private trophy room, a space filled with memorabilia from his past military victories and conquests.",
+    "狗命鎮窄巷的飛車追逐":"The user is in a high-speed vehicle chase through the narrow, crowded backstreets of Dogtown.",
+    "街頭戰鬥的餘波":"The user is standing in a street moments after a violent firefight, with smoking wreckage, bullet-riddled walls, and the bodies of the fallen.",
+    "黑藍寶石露台的夜景":"The user is on an open-air terrace at the Black Sapphire, looking down at the controlled chaos of Dogtown under the night sky."
 };
 
 export const NIGHT_CITY_MISSIONS = [

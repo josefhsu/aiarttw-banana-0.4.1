@@ -843,6 +843,19 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
 
                 <Section title="VI. 出任務(最多複選5個場景)">
                     <div className="themed-panel p-2 rounded-lg mb-2">
+                        <h4 className="text-xs font-bold text-fuchsia-300 mb-2">燈紅酒綠</h4>
+                        <div className="flex flex-wrap gap-1">
+                            {NIGHT_CITY_LEGENDS_SCENES.hedonism.slice(0, 20).map(scene => <SceneButton key={scene} scene={scene} />)}
+                        </div>
+                        {NIGHT_CITY_LEGENDS_SCENES.hedonism.length > 20 && (
+                            <Accordion title="更多享樂主義場景">
+                                <div className="flex flex-wrap gap-1">
+                                    {NIGHT_CITY_LEGENDS_SCENES.hedonism.slice(20).map(scene => <SceneButton key={scene} scene={scene} />)}
+                                </div>
+                            </Accordion>
+                        )}
+                    </div>
+                    <div className="themed-panel p-2 rounded-lg mb-2">
                         <h4 className="text-xs font-bold text-cyan-300 mb-2">夜城</h4>
                         <div className="flex flex-wrap gap-1">
                              {NIGHT_CITY_LEGENDS_SCENES.nightCity.slice(0, 20).map(scene => <SceneButton key={scene} scene={scene} />)}
