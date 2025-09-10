@@ -357,44 +357,145 @@ export const EDITING_EXAMPLES = [
 
 export const NIGHT_CITY_LEGENDS_SCENES = {
     nightCity: [
-        '公司廣場', '歌舞伎町市集', '小唐人街', '荒坂海濱', '憲章山', '麗姿酒吧', '來生酒吧', '超級摩天樓 H10',
-        'V 的公寓', '朱蒂的公寓', '和歌子的柏青哥店', '雲頂', '暗物質俱樂部', '日本城', '北橡區',
-        '公司總部天台', '惡土邊緣汽車旅館', '垃圾掩埋場', '太陽能發電廠', '高速公路追逐', 'NCPD 封鎖線',
-        '地下鐵車站', '貨櫃港口', '豪華賭場', '秘密的 Netrunner 巢穴', '廢棄的購物中心', '屋頂花園',
-
-        '暴雨中的小巷', '霓虹燈招牌叢林', '高架公路下方', '漩戰幫的儀式場所', '虎鉤眾的賭場', '瓦倫提諾幫的街頭派對',
-        '莫克斯幫的俱樂部', '清道夫的黑市診所', '流浪者的營地', '夜之城巨型紀念碑', '太空發射中心',
-        '水力發電大壩', '荒坂塔紀念館', '賽博精神病屠殺現場', '生物科技農場', '奢華空中別墅',
+        // Watson
+        '歌舞伎町市集', '麗姿酒吧', '超級摩天樓 H10', 'V 的公寓', '小唐人街', 'NID 卡丁車賽道', '德拉曼總部', '歌舞伎町碼頭', '漩戰幫的食品工廠', '虎鉤眾的道場', '阿洛厄斯·克萊恩的診所', '電玩城', 'No-Tell Motel', 'Jig-Jig Street', '櫻花市集', '貝爾艾爾長者照護中心',
+        // Westbrook
+        '日本城', '和歌子的柏青哥店', '雲頂', '暗物質俱樂部', '朱蒂的公寓', '憲章山', '北橡區', '科爾法克斯街天橋', '巨型公司會議室', '豪華空中別墅', 'Westbrook 櫻花園', '日本城碼頭', '虎鉤眾的賭場', '名人街', '科羅納多農場', '水上日式餐廳',
+        // City Center
+        '公司廣場', '荒坂塔', '軍用科技大樓', '夜城紀念公園', '市政廳', '公司總部天台', '荒坂塔紀念館', '漢茲的精品店', '中央車站', '迪諾·迪諾維奇的酒吧', '高檔餐廳', '摩天大樓間的空中走廊', 'NCPD 總部', '市長辦公室', '股票交易所',
+        // Heywood
+        '維斯塔德佩區', '谷地區', '嗯嗯公園', '來生酒吧', '聖阿馬羅街', '瓦倫提諾幫的街頭派對', 'Heywood 醫療中心', '河谷區的豪宅', 'El Coyote Cojo 酒吧', '威爾斯家的公寓', '天際線與共和路', '城市農場', '海伍德教堂', '海濱長廊', '海景摩天輪',
+        // Santo Domingo
+        '亞羅育', '聖多明哥之心', '蘭喬科羅納多', '河床', '戴爾斯工業區', '紅泥沼', 'El Padre 的車庫', '大型發電廠', '機器人工廠', '廢棄的體育場', '貨櫃堆疊區', '聖多明哥的露天電影院', '貧民窟', '河邊的釣魚點', '賽車場',
+        // Pacifica
+        '西風莊園', '海濱', '大帝國購物中心', '巫毒幫的教堂', 'GIM (Grand Imperial Mall)', '雲霄飛車', '海濱遊樂園', '巴蒂的旅館', '墜毀的AV停機坪', '海岸線', '廢棄的度假村', '體育館', 'NetWatch 探員的藏身處', '沿海高速公路',
+        // Badlands
+        '惡土邊緣汽車旅館', '垃圾掩埋場', '太陽能發電廠', '高速公路追逐', '流浪者的營地', 'Rocky Ridge', '生物科技農場', '廢棄的機場', '邊境檢查站', '沙漠中的舊教堂', '油田', '風力發電場', '蛋白質農場', '日落汽車旅館', '流浪者賽道', '舊礦坑',
+        // Special
+        '賽博精神病屠殺現場', 'NCPD 封鎖線', '地下鐵車站', '貨櫃港口', '豪華賭場', '秘密的 Netrunner 巢穴', '廢棄的購物中心', '屋頂花園', '暴雨中的小巷', '霓虹燈招牌叢林', '高架公路下方', '清道夫的黑市診所', '夜之城巨型紀念碑', '太空發-射中心', '水力發電大壩', '荒坂海濱',
     ],
     dogtown: [
-        '黑市體育場', '重鎚的藏身處', '漢森的總部 (黑藍寶石)', '廢棄的展覽館', 'V 的狗命鎮公寓', '伊麗莎白的診所',
-        '巨型方尖碑', '盧克雷奇亞我的愛麗堂', '破損的公路', 'Kress 街體育場', '高架橋下的貧民窟',
-        '巴蓋斯特巡邏區', '斯巴達人俱樂部', '黃金太平洋大道', '秘密情報交換點', '墜毀的總統專機現場',
-        '地下走私通道', '被遺棄的教堂', '屋頂狙擊點', '狗命鎮的入口檢查站', '廢棄的摩天輪',
+        '黑市體育場', '重鎚的藏身處', '漢森的總部 (黑藍寶石)', '廢棄的展覽館', 'V 的狗命鎮公寓', '伊麗莎白的診所', '巨型方尖碑', '盧克雷奇亞我的愛麗堂', '破損的公路', 'Kress 街體育場', '高架橋下的貧民窟', '巴蓋斯特巡邏區', '斯巴達人俱樂部', '黃金太平洋大道', '秘密情報交換點', '墜毀的總統專機現場', '地下走私通道', '被遺棄的教堂', '屋頂狙擊點', '狗命鎮的入口檢查站', '廢棄的摩天輪', '重症大樓', '露天市場', '漢森的私人體育館', '地下拳擊場', '巴蓋斯特的軍械庫', '狗命鎮的牆外', '秘密實驗室', '通往體育場的秘密入口', '被水淹沒的地下區域'
     ]
 };
 
 export const NIGHT_CITY_SCENE_PROMPTS = {
-    '公司廣場': 'A bustling corporate plaza in the heart of Night City, surrounded by towering skyscrapers and flying vehicles.',
+    // Watson
     '歌舞伎町市集': 'A crowded, steamy market in Kabuki, filled with street food stalls, neon signs, and shady vendors.',
-    '小唐人街': 'The vibrant, lantern-lit streets of Little China, with holographic dragons and traditional architecture mixed with high-tech.',
-    '荒坂海濱': 'The clean, corporate-controlled Arasaka Waterfront, with luxury yachts and a view of the city skyline.',
-    '憲章山': 'The affluent district of Charter Hill, featuring modern architecture, luxury condos, and expensive cars.',
     '麗姿酒吧': 'The iconic Lizzie\'s Bar, with its distinct pink and blue neon lighting and Mox-affiliated clientele.',
-    '來生酒吧': 'The legendary Afterlife bar, a dimly lit haven for mercs and legends, filled with ghosts of the past.',
     '超級摩天樓 H10': 'The massive H10 Megabuilding, a city within a city, showing the vertical slice of life in Night City.',
-    'V 的公寓': 'V\'s iconic apartment, with its weapon wall, city view, and personal touches.',
-    '朱蒂的公寓': 'Judy Alvarez\'s cozy, tech-filled apartment overlooking a moody, rain-slicked street.',
+    'V 的公寓': 'V\'s iconic apartment in the H10 Megabuilding, with its weapon wall, city view, and personal touches.',
+    '小唐人街': 'The vibrant, lantern-lit streets of Little China, with holographic dragons and traditional architecture mixed with high-tech.',
+    'NID 卡丁車賽道': 'A neon-lit underground go-kart racing track, filled with enthusiasts and illegal betting.',
+    '德拉曼總部': 'The sleek, futuristic headquarters of the Delamain taxi corporation.',
+    '歌舞伎町碼頭': 'The grimy, industrial docks of Kabuki, a place for smuggling and secrets.',
+    '漩戰幫的食品工廠': 'The All Foods plant, a Maelstrom gang stronghold, filled with industrial machinery and a sense of dread.',
+    '虎鉤眾的道場': 'A traditional Tyger Claws dojo, where ancient martial arts meet modern cyberware.',
+    '阿洛厄斯·克萊恩的診所': 'The cluttered, makeshift ripperdoc clinic of Dr. Fingers.',
+    '電玩城': 'A noisy, flashing arcade in Japantown, filled with classic and futuristic games.',
+    'No-Tell Motel': 'A cheap, discreet motel on the edge of Watson, perfect for shady deals.',
+    'Jig-Jig Street': 'The infamous Jig-Jig Street at night, a sensory overload of illicit braindances, streetwalkers, and neon signs.',
+    '櫻花市集': 'A bustling open-air market with a blend of Japanese cultural goods and high-tech street stalls.',
+    '貝爾艾爾長者照護中心': 'A seemingly peaceful senior care facility with hidden secrets within its walls.',
+    // Westbrook
+    '日本城': 'The bustling, neon-drenched streets of Japantown, a hub of culture, entertainment, and danger.',
     '和歌子的柏青哥店': 'Wakako Okada\'s pachinko parlor, a front for her fixer operations, filled with the sounds of machines and smoke.',
     '雲頂': 'The Clouds dollhouse, a high-tech, aesthetically pleasing club with a dark secret.',
     '暗物質俱樂部': 'The exclusive Dark Matter club, frequented by celebrities and corpo elites.',
-    '日本城': 'The bustling, neon-drenched streets of Japantown, a hub of culture, entertainment, and danger.',
+    '朱蒂的公寓': 'Judy Alvarez\'s cozy, tech-filled apartment overlooking a moody, rain-slicked street.',
+    '憲章山': 'The affluent district of Charter Hill, featuring modern architecture, luxury condos, and expensive cars.',
     '北橡區': 'The luxurious, heavily guarded North Oak district, home to Night City\'s wealthiest celebrities and corpo execs.',
+    '科爾法克斯街天橋': 'A high pedestrian overpass in Japantown offering stunning views of the neon cityscape.',
+    '巨型公司會議室': 'A sterile, high-tech boardroom in a Westbrook skyscraper with panoramic city views.',
+    '豪華空中別墅': 'An opulent penthouse apartment in a Westbrook skyscraper, with panoramic views of the entire city.',
+    'Westbrook 櫻花園': 'A beautiful, serene park with cherry blossom trees, a stark contrast to the surrounding city.',
+    '日本城碼頭': 'The busy docks of Japantown, where fishing boats and cargo ships operate under neon lights.',
+    '虎鉤眾的賭場': 'A Tyger Claws-run casino, blending traditional Japanese aesthetics with high-tech gambling.',
+    '名人街': 'The main boulevard in North Oak, lined with mansions of the rich and famous.',
+    '科羅納多農場': 'A corporate-owned agricultural farm in the hills of Westbrook, utilizing advanced technology.',
+    '水上日式餐廳': 'A traditional Japanese restaurant built on stilts over the water in Japantown.',
+    // City Center
+    '公司廣場': 'A bustling corporate plaza in the heart of Night City, surrounded by towering skyscrapers and flying vehicles.',
+    '荒坂塔': 'The imposing, iconic Arasaka Tower, a symbol of corporate power and dominance in the city center.',
+    '軍用科技大樓': 'The heavily fortified Militech headquarters, showcasing military-grade hardware and security.',
+    '夜城紀念公園': 'A solemn memorial park in the city center, a place of reflection amidst the urban chaos.',
+    '市政廳': 'The grand, imposing building of Night City\'s City Hall, a center of political power.',
     '公司總部天台': 'The rooftop of a massive corporate headquarters, overlooking the entire city at night.',
+    '荒坂塔紀念館': 'The memorial site for the Arasaka Tower bombing, a place of reflection and conspiracy.',
+    '漢茲的精品店': 'An exclusive, high-fashion boutique in the city center catering to the elite.',
+    '中央車站': 'The main Maglev train station in the city center, a hub of transportation and activity.',
+    '迪諾·迪諾維奇的酒吧': 'A smoky, dimly lit bar where fixer Dino Dinovic conducts his business.',
+    '高檔餐廳': 'An expensive, luxurious restaurant with a stunning view of the city skyline.',
+    '摩天大樓間的空中走廊': 'A glass skybridge connecting two massive skyscrapers, high above the bustling streets.',
+    'NCPD 總部': 'The heavily secured headquarters of the Night City Police Department.',
+    '市長辦公室': 'The opulent office of the Mayor of Night City, located in City Hall.',
+    '股票交易所': 'The chaotic floor of the Night City Stock Exchange, with holographic data streams everywhere.',
+    // Heywood
+    '維斯塔德佩區': 'The diverse and vibrant district of Vista Del Rey, with a mix of cultures and communities.',
+    '谷地區': 'The Glen, a district with a mix of corpo offices, luxury apartments, and gang territory.',
+    '嗯嗯公園': 'A public park in Heywood, a rare patch of green in the dense urban environment.',
+    '來生酒吧': 'The legendary Afterlife bar, a dimly lit haven for mercs and legends, filled with ghosts of the past.',
+    '聖阿馬羅街': 'A street in Heywood controlled by the Valentinos, known for its vibrant murals and low-riders.',
+    '瓦倫提諾幫的街頭派對': 'A vibrant Valentinos street party, with low-riders, colorful murals, and loud music.',
+    'Heywood 醫療中心': 'A large, modern hospital in Heywood, often dealing with the aftermath of street violence.',
+    '河谷區的豪宅': 'A luxurious mansion in the wealthier part of The Glen, overlooking the city.',
+    'El Coyote Cojo 酒吧': 'The Welles family\'s bar, a warm and welcoming place with a strong sense of community.',
+    '威爾斯家的公寓': 'Mama Welles\' apartment, a place filled with memories and tradition.',
+    '天際線與共和路': 'A major intersection in Heywood, where the monorail runs above the busy streets.',
+    '城市農場': 'An urban farm in Heywood, growing food in a controlled, high-tech environment.',
+    '海伍德教堂': 'An old, grand church that stands as a relic of the past in the modern city.',
+    '海濱長廊': 'A scenic promenade along the coast of Heywood, popular with residents.',
+    '海景摩天輪': 'A large Ferris wheel on the Heywood coast, offering views of the city and the ocean.',
+    // Santo Domingo
+    '亞羅育': 'The industrial district of Arroyo, filled with factories, warehouses, and the smell of pollution.',
+    '聖多明哥之心': 'The central hub of Santo Domingo, a working-class neighborhood with a strong sense of community.',
+    '蘭喬科羅納多': 'A residential district in Santo Domingo, characterized by its dense housing projects.',
+    '河床': 'A dried-up riverbed that cuts through Santo Domingo, now used as a makeshift road and dumping ground.',
+    '戴爾斯工業區': 'A heavily industrialized zone with massive factories and automated machinery.',
+    '紅泥沼': 'A polluted, reddish swamp area on the outskirts of Santo Domingo.',
+    'El Padre 的車庫': 'The garage of fixer Sebastian "Padre" Ibarra, a hub of activity for local mercs.',
+    '大型發電廠': 'A massive power plant that supplies energy to a large portion of the city.',
+    '機器人工廠': 'A factory where automated robots assemble vehicles and other machinery.',
+    '廢棄的體育場': 'An old, crumbling stadium that is now home to squatters and gangs.',
+    '貨櫃堆疊區': 'A labyrinthine area filled with stacked shipping containers, used for storage and illegal activities.',
+    '聖多明哥的露天電影院': 'A drive-in movie theater that still operates, showing old films to a nostalgic audience.',
+    '貧民窟': 'A shantytown on the edge of Santo Domingo, where the poorest residents live in makeshift homes.',
+    '河邊的釣魚點': 'A spot along the polluted river where people still try to catch fish.',
+    '賽車場': 'An illegal street racing circuit in the industrial areas of Santo Domingo.',
+    // Pacifica
+    '西風莊園': 'The district of West Wind Estate, a failed corporate development now controlled by the Voodoo Boys.',
+    '海濱': 'The once-popular beach of Pacifica, now littered with debris and home to squatters.',
+    '大帝國購物中心': 'The Grand Imperial Mall (GIM), a massive, abandoned shopping center now used as a base by the Animals gang.',
+    '巫毒幫的教堂': 'A repurposed old church that serves as the spiritual and operational center for the Voodoo Boys.',
+    'GIM (Grand Imperial Mall)': 'The massive, abandoned Grand Imperial Mall, a battleground for gangs.',
+    '雲霄飛車': 'A derelict roller coaster on the Pacifica pier, a haunting silhouette against the sky.',
+    '海濱遊樂園': 'An abandoned amusement park on the coast, its rides rusting and overgrown.',
+    '巴蒂的旅館': 'A dilapidated hotel that serves as a neutral ground in the chaotic district.',
+    '墜毀的AV停機坪': 'A rooftop where a large AV has crashed, creating a dangerous and scavenge-rich environment.',
+    '海岸線': 'The beautiful but dangerous coastline of Pacifica, with crumbling infrastructure.',
+    '廢棄的度假村': 'A once-luxurious resort that has fallen into ruin, its pools empty and buildings decaying.',
+    '體育館': 'A large stadium in Pacifica, now used for various illicit activities.',
+    'NetWatch 探員的藏身處': 'A hidden location where NetWatch agents monitor the Voodoo Boys\' activities.',
+    '沿海高速公路': 'A crumbling highway that runs along the Pacifica coast, offering dangerous routes.',
+    // Badlands
     '惡土邊緣汽車旅館': 'A dusty, isolated motel on the edge of the Badlands, a common meeting spot for shady deals.',
     '垃圾掩埋場': 'The vast, desolate landfill outside Night City, a place where secrets and bodies are buried.',
     '太陽能發電廠': 'A massive solar power farm in the desert, its panels glistening under the sun.',
     '高速公路追逐': 'A high-speed chase on a multi-level highway, with vehicles weaving through traffic under the neon glow.',
+    '流浪者的營地': 'A Nomad camp in the Badlands, a collection of modified vehicles and makeshift homes under the open sky.',
+    'Rocky Ridge': 'An abandoned town in the Badlands, now a ghost town and a place for showdowns.',
+    '生物科技農場': 'A massive, sterile Biotech farm, with genetically engineered crops under artificial lights.',
+    '廢棄的機場': 'An old, abandoned airfield in the desert, its runway cracked and buildings in ruin.',
+    '邊境檢查站': 'A heavily guarded checkpoint on the border of the NUSA, a tense and dangerous place.',
+    '沙漠中的舊教堂': 'A small, isolated church in the middle of the desert, a place of solitude and secrets.',
+    '油田': 'A working oil field in the Badlands, with pumps and derricks dotting the landscape.',
+    '風力發電場': 'A large wind farm with towering turbines spinning in the desert wind.',
+    '蛋白質農場': 'A corporate facility raising genetically engineered insects and animals for food production.',
+    '日落汽車旅館': 'A classic, neon-lit motel in the Badlands, a beacon in the dark desert.',
+    '流浪者賽道': 'A makeshift racetrack in the desert, where Nomads test their driving skills.',
+    '舊礦坑': 'An abandoned mine in the Badlands, its tunnels dark and dangerous.',
+    // Special
+    '賽博精神病屠殺現場': 'The aftermath of a cyberpsycho attack, with MaxTac units securing the area.',
     'NCPD 封鎖線': 'An NCPD crime scene, cordoned off with holographic tape, surrounded by armored vehicles and officers.',
     '地下鐵車站': 'A grimy, graffiti-covered subway station, a cross-section of Night City\'s populace.',
     '貨櫃港口': 'The industrial, labyrinthine container port, a hotspot for smuggling and corporate espionage.',
@@ -405,19 +506,12 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '暴雨中的小巷': 'A narrow, dark alleyway during a torrential downpour, with neon reflections in the puddles.',
     '霓虹燈招牌叢林': 'Looking up from the street level, surrounded by a dense jungle of holographic and neon signs.',
     '高架公路下方': 'The gritty, shadowy space beneath a massive overpass, a makeshift home for the city\'s forgotten.',
-    '漩戰幫的儀式場所': 'A Maelstrom gang ritual site, filled with disturbing cyberware, red light, and industrial metal.',
-    '虎鉤眾的賭場': 'A Tyger Claws-run casino, blending traditional Japanese aesthetics with high-tech gambling.',
-    '瓦倫提諾幫的街頭派對': 'A vibrant Valentinos street party, with low-riders, colorful murals, and loud music.',
-    '莫克斯幫的俱λε部': 'A Mox-controlled club, a safe haven filled with defiant and stylish outcasts.',
     '清道夫的黑市診所': 'A horrifying Scavenger-run ripperdoc clinic, located in a dirty, undisclosed location.',
-    '流浪者的營地': 'A Nomad camp in the Badlands, a collection of modified vehicles and makeshift homes under the open sky.',
     '夜之城巨型紀念碑': 'A colossal monument in the city center, a symbol of corporate power and control.',
     '太空發射中心': 'The orbital space center, with a rocket ready for launch against a starry sky.',
     '水力發電大壩': 'A massive, imposing hydroelectric dam, a feat of engineering and corporate control.',
-    '荒坂塔紀念館': 'The memorial site for the Arasaka Tower bombing, a place of reflection and conspiracy.',
-    '賽博精神病屠殺現場': 'The aftermath of a cyberpsycho attack, with MaxTac units securing the area.',
-    '生物科技農場': 'A massive, sterile Biotech farm, with genetically engineered crops under artificial lights.',
-    '奢華空中別墅': 'An opulent penthouse apartment in a skyscraper, with panoramic views of the entire city.',
+    '荒坂海濱': 'The clean, corporate-controlled Arasaka Waterfront, with luxury yachts and a view of the city skyline.',
+    // Dogtown
     '黑市體育場': 'The sprawling, chaotic black market inside the Dogtown stadium.',
     '重鎚的藏身處': 'The heavily fortified, industrial hideout of Adam Smasher.',
     '漢森的總部 (黑藍寶石)': 'The luxurious, heavily guarded Black Sapphire, Kurt Hansen\'s headquarters.',
@@ -439,6 +533,15 @@ export const NIGHT_CITY_SCENE_PROMPTS = {
     '屋頂狙擊點': 'A high vantage point overlooking the chaotic streets of Dogtown.',
     '狗命鎮的入口檢查站': 'The heavily fortified main gate of Dogtown, a symbol of its lawlessness.',
     '廢棄的摩天輪': 'The skeletal remains of an old Ferris wheel, a haunting landmark in Dogtown.',
+    '重症大樓': 'A heavily guarded high-rise building used by Barghest as a medical and cyberware facility.',
+    '露天市場': 'An open-air market near the stadium where all sorts of goods, legal and illegal, are traded.',
+    '漢森的私人體育館': 'Kurt Hansen\'s personal, opulent gym located within the Black Sapphire.',
+    '地下拳擊場': 'An illegal fighting ring in the depths of Dogtown where spectators bet on brutal matches.',
+    '巴蓋斯特的軍械庫': 'A heavily fortified armory where Barghest stores their military-grade weapons.',
+    '狗命鎮的牆外': 'The desolate no-man\'s-land just outside the walls of Dogtown, littered with mines and wreckage.',
+    '秘密實驗室': 'A hidden laboratory where illegal cyberware and biotech experiments are conducted.',
+    '通往體育場的秘密入口': 'A concealed entrance leading into the Dogtown stadium, bypassing the main checkpoints.',
+    '被水淹沒的地下區域': 'A flooded underground section of Dogtown, now a silent, eerie labyrinth.'
 };
 
 export const NIGHT_CITY_MISSIONS = [
@@ -717,18 +820,45 @@ export const NCL_OUTFITS_AND_CYBERWARE = {
     },
     legwear: {
         label: "腿部",
-        options: ["不指定", "戰術長褲", "緊身皮褲", "機能緊身褲", "寬鬆工裝褲", "裝甲護腿", "公司西褲", "破洞牛仔褲", "運動短褲", "迷你裙", "長裙", "高腰褲", "連身褲"]
+        options: [
+            "不指定", "戰術長褲", "緊身皮褲", "機能緊身褲", "寬鬆工裝褲", "裝甲護腿", "公司西褲", "破洞牛仔褲", "運動短褲", "迷你裙", "長裙", "高腰褲", "連身褲",
+            "多口袋軍規長褲", "抗撕裂機能褲", "生物纖維緊身褲", "附掛模組化口袋的工裝褲", "發光線條裝飾的運動褲", "不對稱設計的解構長褲", "和服式寬褲 (Hakama)", "熱褲", "皮質短褲",
+            "重機騎士皮褲", "內置護膝的戰術褲", "數位迷彩褲", "高科技運動短褲", "全像投影廣告圖案的褲子", "透明PVC材質長褲", "金屬質感緊身褲", "拼接材質長褲", "流蘇皮褲",
+            "側邊綁帶長褲", "高衩長裙", "不規則下擺裙", "戰術短裙", "皮質迷你裙", "百褶裙", "帶有外骨骼結構的長褲", "壓力褲", "瑜珈褲", "寬鬆的垮褲", "燈籠褲",
+            "馬褲", "工作服連身褲", "緊身連身衣 (Catsuit)", "短版連身褲 (Romper)", "防護工作褲", "耐火材質長褲", "防水褲", "隔熱褲", "降落傘褲", "仿舊牛仔褲",
+            "酸洗牛仔褲", "卯釘裝飾龐克褲", "格子褲", "絲質睡褲風格長褲", "天鵝絨寬褲", "蕾絲緊身褲", "漁網襪", "過膝長襪", "帶有發光圖案的絲襪", "盔甲護膝", "護脛甲", "外掛式大腿槍套"
+        ]
     },
     footwear: {
         label: "足部",
-        options: ["不指定", "重型戰鬥靴", "高筒運動鞋", "金屬護腿靴", "公司皮鞋", "輕便跑鞋", "磁懸浮靴", "西部靴", "過膝長靴", "涼鞋", "高跟鞋"]
+        options: [
+            "不指定", "重型戰鬥靴", "高筒運動鞋", "金屬護腿靴", "公司皮鞋", "輕便跑鞋", "磁懸浮靴", "西部靴", "過膝長靴", "涼鞋", "高跟鞋",
+            "鋼頭工作靴", "軍用沙漠靴", "高科技潛入靴", "LED發光運動鞋", "厚底鬆糕鞋", "機車靴", "裝甲高跟鞋", "忍者分趾靴 (Tabi Boots)", "磁吸攀爬靴", "動力輔助跳躍靴",
+            "隱形變色靴", "全地形適應靴", "防滑工作鞋", "絕緣靴", "抗衝擊運動鞋", "流線型賽車靴", "優雅的德比鞋", "樂福鞋", "牛津鞋", "鉚釘龐克靴",
+        "帶有金屬扣環的靴子", "蛇皮紋路靴", "透明材質高跟鞋", "發光鞋帶", "自動繫帶運動鞋", "附帶滾輪的鞋子", "靜音潛行鞋", "防水涉水靴", "長筒馬靴", "木屐",
+        "涼拖鞋", "戰術涼鞋", "運動拖鞋", "芭蕾平底鞋", "瑪莉珍鞋", "楔形跟鞋", "踝靴", "切爾西靴", "帆布鞋", "懶人鞋", "豆豆鞋", "過膝襪靴", "帶有小口袋的靴子", "外骨骼輔助靴", "能量回饋跑鞋", "可替換鞋底的模組化鞋", "帶有全像投影的鞋子", "腳踝護甲"
+        ]
     },
     faceCyberware: {
         label: "臉部義體",
-        options: ["不指定", "奇美拉光學儀", "克羅斯尼科夫眼", "面部金屬板", "皮膚下LED發光紋路", "改造下顎", "合成皮膚", "眼部攝影機", "語音合成器格柵", "鼻部過濾器"]
+        options: [
+            "不指定", "奇美拉光學儀", "克羅斯尼科夫眼", "面部金屬板", "皮膚下LED發光紋路", "改造下顎", "合成皮膚", "眼部攝影機", "語音合成器格柵", "鼻部過濾器",
+            "多光譜視覺眼", "目標分析儀", "情緒感應器", "臉部 seams (接縫線)", "太陽穴數據端口", "可伸縮的天線", "虹膜變色隱形眼鏡", "全像投影化妝", "皮下通訊植入物", "下顎強化骨骼",
+            "牙齒替換 (鉻合金/黃金)", "人工鰓 (水下呼吸)", "皮膚顯示器 (顯示文字/圖案)", "視網膜投影", "擴增聽覺感應器", "化學分析嗅探器", "微型臉部護盾發射器", "聲音過濾耳塞", "戰術目鏡", "單邊眼鏡式顯示器",
+            "皮膚紋理改造", "防彈皮膚移植", "臉頰儲存囊", "舌頭數據接口", "喉部擴音器", "眼窩攝影機", "電子淚痕 (發光)", "鼻樑數據線", "額頭散熱片", "嘴唇金屬裝飾",
+            "下巴植入物", "臉部骨骼重塑", "皮膚硬化處理", "可伸縮的面具", "生物辨識掃描儀", "臉部全像偽裝", "紅外線視覺", "夜視功能眼", "變焦鏡頭眼", "微型臉部無人機發射器",
+            "臉部表情抑制器", "皮下微型電腦", "腦波讀取器接口", "記憶體擴充插槽", "神經接口"
+        ]
     },
     bodyCyberware: {
         label: "身體義體",
-        options: ["不指定", "皮下裝甲", "脊椎外骨骼", "合成肌肉纖維", "生物監測器植入", "胸口發光裝置", "外露的機械關節", "碳纖維骨骼", "肩部植入物", "腹部電鍍"]
+        options: [
+            "不指定", "皮下裝甲", "脊椎外骨骼", "合成肌肉纖維", "生物監測器植入", "胸口發光裝置", "外露的機械關節", "碳纖維骨骼", "肩部植入物", "腹部電鍍",
+            "強化肌腱", "腎上腺素幫浦", "疼痛抑制器", "血液過濾系統", "人工肝臟/腎臟", "第二心臟", "皮膚下武器艙", "可伸縮的爪子", "手臂火箭發射器", "肩膀上的微型飛彈",
+            "背部散熱口", "整合式工具臂", "全息投影儀", "皮膚硬化改造", "反射增強器", "骨骼強化", "毒素過濾器", "體內氧氣瓶", "微型工廠 (體內製造化學品)", "細胞再生器",
+            "皮膚顏色/圖案變換", "磁性皮膚 (可吸附金屬)", "聲音模擬器", "體溫調節器", "輻射偵測器", "GPS追蹤器", "數據儲存硬碟", "可伸縮的翅膀 (滑翔用)", "腳底推進器", "手指上的小工具 (開鎖器/焊接器)",
+            "掌心衝擊波", "電磁脈衝 (EMP) 發生器", "匿蹤皮膚 (光學迷彩)", "能量護盾產生器", "合成神經系統", "觸手附肢", "可分離的肢體", "內部武器架", "液壓增強腿部", "快速凝血系統",
+            "強化感官套件", "生物駭客接口"
+        ]
     }
 };

@@ -20,7 +20,7 @@ import type {
     VeoAspectRatio,
 } from './types';
 import * as geminiService from './services/geminiService';
-import { dataURLtoFile, getFileSizeFromBase64, getImageDimensions, createPlaceholderImage, downloadImage, getAspectRatio } from './utils';
+import { dataURLtoFile, getFileSizeFromBase64, getImageDimensions, createPlaceholderImage, downloadImage, getAspectRatio, cropImageToAspectRatio } from './utils';
 import { API_SUPPORTED_ASPECT_RATIOS, UNIFIED_DIRECTOR_STYLES, ASPECT_RATIOS, NIGHT_CITY_LEGENDS_SCENES, NIGHT_CITY_SCENE_PROMPTS, NIGHT_CITY_MISSIONS, DYNAMIC_ACTION_PROMPTS, IMMERSIVE_QUALITY_PROMPTS } from './constants';
 
 const App: React.FC = () => {
@@ -41,7 +41,7 @@ const App: React.FC = () => {
     const [promptText, setPromptText] = useState('');
     const [inspiredPromptPart, setInspiredPromptPart] = useState('');
     const [referenceImages, setReferenceImages] = useState<UploadedImage[]>([]);
-    const [selectedAspectRatio, setSelectedAspectRatio] = useState<AspectRatio>('1:1');
+    const [selectedAspectRatio, setSelectedAspectRatio] = useState<AspectRatio | null>(null);
     const [isOptimizing, setIsOptimizing] = useState(false);
     const [isSuggestingEdit, setIsSuggestingEdit] = useState(false);
     const prevRefImagesCount = useRef(0);
@@ -82,7 +82,7 @@ const App: React.FC = () => {
     const [brushSize, setBrushSize] = useState(10);
     const [fillColor, setFillColor] = useState('transparent');
     const [strokeColor, setStrokeColor] = useState('#FFFFFF');
-    const [drawAspectRatio, setDrawAspectRatio] = useState<AspectRatio>('1:1');
+    const [drawAspectRatio, setDrawAspectRatio] = useState<AspectRatio | null>(null);
     const [canvasBackgroundColor, setCanvasBackgroundColor] = useState('#808080');
     const [drawBackgroundImage, setDrawBackgroundImage] = useState<string | null>(null);
 
@@ -97,7 +97,7 @@ const App: React.FC = () => {
     const [veoPrompt, setVeoPrompt] = useState('');
     const [startFrame, setStartFrame] = useState<UploadedImage | null>(null);
     const [endFrame, setEndFrame] = useState<UploadedImage | null>(null);
-    const [veoAspectRatio, setVeoAspectRatio] = useState<VeoAspectRatio>('16:9');
+    const [veoAspectRatio, setVeoAspectRatio] = useState<VeoAspectRatio | null>(null);
     const [videoDuration, setVideoDuration] = useState(5);
     const [isGeneratingVideo, setIsGeneratingVideo] = useState(false);
     const [veoHistory, setVeoHistory] = useState<VeoHistoryItem[]>([]);
@@ -202,12 +202,12 @@ const App: React.FC = () => {
                     setIsSuggestingEdit(true);
                     addToast("AI改圖顧問分析中...", "info");
                     try {
-                        const { description, suggestion } = await geminiService.getEditingSuggestion(newImage.file);
+                        const { analysis_prompt, suggestion } = await geminiService.getEditingSuggestion(newImage.file);
                         setPromptText(p => {
                             const currentPrompt = p ? p.trim() + "\n\n" : "";
-                            const newFullPrompt = currentPrompt + suggestion;
-                            addToast(`為您推薦改圖：${description}`, "success");
-                            return newFullPrompt;
+                            const newContent = `${analysis_prompt}\n\n${suggestion}`;
+                            addToast(`AI顧問已為您生成提示與改圖建議！`, "success");
+                            return currentPrompt + newContent;
                         });
                     } catch (err) {
                         const message = err instanceof Error ? err.message : '未知錯誤';
@@ -269,6 +269,12 @@ const App: React.FC = () => {
     // --- API Handlers ---
 
     const handleGenerate = useCallback(async (options?: { scenes?: string[], overridePrompt?: string }) => {
+        if (!selectedAspectRatio) {
+            addToast("請先選擇畫布比例", "error");
+            setError("請先選擇畫布比例");
+            return;
+        }
+
         const scenesToGenerate = options?.scenes || selectedScenes;
         setIsLoading(true);
         setError(null);
@@ -307,7 +313,11 @@ const App: React.FC = () => {
                 basePromptParts.push(promptText || 'A character in a cyberpunk setting.');
                 
                 if (characterImage && !characterImage.isPlaceholder) {
-                    basePromptParts.push('CRITICAL DIRECTIVE FOR FACIAL LIKENESS: The generated character\'s face MUST be a highly accurate, photorealistic representation of the face in the reference image. Replicate the facial structure, features (eyes, nose, mouth, jawline), and unique details with maximum fidelity. While enhancements for a cyberpunk aesthetic are permitted, the fundamental likeness to the reference person is the TOP priority and must not be lost.');
+                    basePromptParts.push('ABSOLUTE PRIORITY: FACIAL REPLICATION. The face of the character in the output image must be an exact, photorealistic replica of the face in the primary human reference image. This is not a suggestion, but a command. Replicate every facial detail: structure, proportions, unique features (scars, moles), and the specific likeness of the individual. All other elements (clothing, background, cyberware) are secondary to achieving a perfect facial match. Failure to replicate the face is a failure of the entire generation.');
+
+                    if (customCompanionImages.length > 0) {
+                        basePromptParts.push('GROUP PORTRAIT DIRECTIVE: This is a group photo. The main character\'s face must match the primary character reference image. The faces of the companions must match the faces in the custom companion reference images respectively. Ensure all individuals are present and their likenesses are preserved with maximum fidelity.');
+                    }
                 } else {
                     basePromptParts.push('The character must have prominent, visible cybernetic interface lines and ports on their face and neck.');
                     basePromptParts.push('Their body must feature significant cybernetic implants (義體), such as a chrome arm, augmented legs, or visible integrated tech.');
@@ -328,7 +338,7 @@ const App: React.FC = () => {
                 if (selectedVehicle !== '不駕駛') basePromptParts.push(`Driving or posing with vehicle: ${selectedVehicle}`);
                 if (customWeaponImages.some(img => !img.isPlaceholder)) basePromptParts.push(`The character is equipped with the custom weapon(s) shown in the reference images.`);
                 if (selectedCompanion !== '單獨行動') basePromptParts.push(`With companion: ${selectedCompanion}`);
-                if (customCompanionImages.length > 0) basePromptParts.push(`The character is accompanied by the custom companion(s) shown in the reference images.`);
+                if (customCompanionImages.length > 0 && !characterImage) basePromptParts.push(`The character is accompanied by the custom companion(s) shown in the reference images.`);
                 
                 const cinematicPrompt = '8K 超寫實 Path-tracing ,UE 5 超逼真質感, 電影光線氛圍, ultra realistic, 8K Ray-tracing HDR Hyper-Realistic RTX-5090';
                 if(isCinematicRealism) {
@@ -449,7 +459,7 @@ const App: React.FC = () => {
     const handleUe5Upgrade = useCallback(async (imageToUpgrade: GeneratedImage) => {
         const isNCLPrompt = imageToUpgrade.prompt && (
             imageToUpgrade.prompt.includes('cyberpunk setting') ||
-            imageToUpgrade.prompt.includes('CRITICAL DIRECTIVE FOR FACIAL LIKENESS') ||
+            imageToUpgrade.prompt.includes('FACIAL REPLICATION') ||
             imageToUpgrade.prompt.includes('Night City')
         );
     
@@ -564,6 +574,11 @@ const App: React.FC = () => {
             addToast("請輸入影片提示詞", "error");
             return;
         }
+        if (!paramsToUse.aspectRatio) {
+            addToast("請先選擇影片寬高比", "error");
+            return;
+        }
+
         setIsGeneratingVideo(true);
         setError(null);
         
@@ -661,7 +676,9 @@ const App: React.FC = () => {
             setVeoPrompt(paramsToRestore.prompt);
             setStartFrame(paramsToRestore.startFrame);
             setEndFrame(paramsToRestore.endFrame);
-            setVeoAspectRatio(paramsToRestore.aspectRatio);
+            if (paramsToRestore.aspectRatio) {
+              setVeoAspectRatio(paramsToRestore.aspectRatio);
+            }
             setVideoDuration(paramsToRestore.duration);
             addToast("已還原設定", "success");
         } else {
@@ -734,7 +751,7 @@ const App: React.FC = () => {
     const onClearSettings = useCallback(() => {
         setPromptText('');
         setReferenceImages([]);
-        setSelectedAspectRatio('1:1');
+        setSelectedAspectRatio(null);
         setInspiredPromptPart('');
         setSelectedScenes([]);
         // NCL state
@@ -766,7 +783,7 @@ const App: React.FC = () => {
         setVeoPrompt('');
         setStartFrame(null);
         setEndFrame(null);
-        setVeoAspectRatio('16:9');
+        setVeoAspectRatio(null);
         setVideoDuration(5);
         setSelectedVeoDirector('隨機導演');
         addToast("Veo 設定已清除");
@@ -805,6 +822,12 @@ const App: React.FC = () => {
             case 'reference':
                 // Always send to generic generate mode's reference images
                 setReferenceImages(prev => [...prev.filter(i => !i.isPlaceholder), uploaded].slice(0, 8));
+                
+                // NEW: Update the main aspect ratio selector to match the used image
+                if (image.aspectRatio && ASPECT_RATIOS.includes(image.aspectRatio as AspectRatio)) {
+                    onAspectRatioSelect(image.aspectRatio as AspectRatio);
+                }
+                
                 setAppMode('GENERATE');
                 addToast("圖片已添加至參考圖", "success");
                 break;
@@ -819,7 +842,7 @@ const App: React.FC = () => {
                 break;
         }
         setLightboxConfig(null);
-    }, [addToast]);
+    }, [addToast, onAspectRatioSelect]);
     
     const onUseHistoryImage = useCallback((item: HistoryItem, targetMode: AppMode) => {
         const file = dataURLtoFile(item.src, `history-img.png`);
@@ -861,7 +884,7 @@ const App: React.FC = () => {
             addToHistory([newImage]);
             addToast("圖片畫質已提升", "success");
         } catch (err) {
-            const message = err instanceof Error ? err.message : '發生未知錯誤';
+            const message = err instanceof Error ? err.message : '未知錯誤';
             setError(message);
             addToast(`提升畫質失敗: ${message}`, 'error');
         } finally {
@@ -890,7 +913,7 @@ const App: React.FC = () => {
             addToHistory([newImage]);
             addToast("圖片已擴圖", "success");
         } catch (err) {
-            const message = err instanceof Error ? err.message : '發生未知錯誤';
+            const message = err instanceof Error ? err.message : '未知錯誤';
             setError(message);
             addToast(`擴圖失敗: ${message}`, 'error');
         } finally {
@@ -905,6 +928,10 @@ const App: React.FC = () => {
     
     const handleUseDrawing = useCallback(async () => {
         if (!drawCanvasRef.current) return;
+        if (!drawAspectRatio) {
+            addToast("請先選擇畫布比例", "error");
+            return;
+        }
         const dataUrl = drawCanvasRef.current.exportImage();
         const file = dataURLtoFile(dataUrl, 'drawing.png');
         const { width, height } = await getImageDimensions(dataUrl);
@@ -916,7 +943,7 @@ const App: React.FC = () => {
         }
         setAppMode(appMode === 'NIGHT_CITY_LEGENDS' ? 'NIGHT_CITY_LEGENDS' : 'GENERATE');
         addToast("畫布已作為參考圖", "success");
-    }, [addToast, appMode, characterImage]);
+    }, [addToast, appMode, characterImage, drawAspectRatio]);
 
     const handleDownloadDrawing = useCallback(() => {
         if (!drawCanvasRef.current) return;
@@ -984,6 +1011,13 @@ const App: React.FC = () => {
             const items = e.clipboardData?.items;
             if (!items) return;
 
+            const targetRatio = appMode === 'DRAW' ? drawAspectRatio : (appMode === 'VEO' ? veoAspectRatio : selectedAspectRatio);
+            if (!targetRatio) {
+                addToast('請先選擇長寬比例再貼上圖片', 'error');
+                e.preventDefault();
+                return;
+            }
+
             for (let i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
                     const file = items[i].getAsFile();
@@ -991,8 +1025,11 @@ const App: React.FC = () => {
                         const reader = new FileReader();
                         reader.onload = async (event) => {
                             const src = event.target?.result as string;
-                             const { width, height } = await getImageDimensions(src);
-                            const uploaded: UploadedImage = { src, file, width, height, id: crypto.randomUUID() };
+                            const croppedSrc = await cropImageToAspectRatio(src, targetRatio);
+                            const croppedFile = dataURLtoFile(croppedSrc, file.name);
+                            const { width, height } = await getImageDimensions(croppedSrc);
+
+                            const uploaded: UploadedImage = { src: croppedSrc, file: croppedFile, width, height, id: crypto.randomUUID() };
                             if (appMode === 'REMOVE_BG') {
                                 setUploadedImage(uploaded);
                             } else if (appMode === 'GENERATE') {
@@ -1010,7 +1047,7 @@ const App: React.FC = () => {
                                     handleEndFrameChange(uploaded);
                                 }
                             }
-                            addToast('圖片已從剪貼簿貼上', 'success');
+                            addToast('圖片已從剪貼簿貼上並裁切', 'success');
                         };
                         reader.readAsDataURL(file);
                     }
@@ -1021,7 +1058,7 @@ const App: React.FC = () => {
         };
         window.addEventListener('paste', handlePaste);
         return () => window.removeEventListener('paste', handlePaste);
-    }, [appMode, addToast, startFrame, endFrame, characterImage, customWeaponImages, customCompanionImages, handleStartFrameChange, handleEndFrameChange, handleCustomImageUpload]);
+    }, [appMode, addToast, startFrame, endFrame, characterImage, customWeaponImages, customCompanionImages, handleStartFrameChange, handleEndFrameChange, handleCustomImageUpload, selectedAspectRatio, drawAspectRatio, veoAspectRatio]);
     
     // --- Render Logic ---
 

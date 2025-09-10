@@ -1,4 +1,4 @@
-import type { AspectRatio } from './types';
+import type { AspectRatio, VeoAspectRatio } from './types';
 
 /**
  * Downloads an image from a data URL or blob URL.
@@ -149,6 +149,74 @@ export const getAspectRatio = (width: number, height: number): string => {
     const divisor = gcd(width, height);
     return `${width / divisor}:${height / divisor}`;
 };
+
+/**
+ * Crops an image from a data URL to a specific aspect ratio, centered.
+ * @param dataUrl The source image data URL.
+ * @param aspectRatio The target aspect ratio string (e.g., '16:9').
+ * @returns A promise that resolves with the cropped image as a data URL.
+ */
+export const cropImageToAspectRatio = (
+    dataUrl: string,
+    aspectRatio: AspectRatio | VeoAspectRatio
+): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            const originalWidth = img.width;
+            const originalHeight = img.height;
+            const originalRatio = originalWidth / originalHeight;
+
+            const [targetW, targetH] = aspectRatio.split(':').map(Number);
+            const targetRatio = targetW / targetH;
+
+            let cropWidth: number, cropHeight: number, cropX: number, cropY: number;
+
+            if (originalRatio > targetRatio) {
+                // Original image is wider than target, so crop the width
+                cropHeight = originalHeight;
+                cropWidth = originalHeight * targetRatio;
+                cropX = (originalWidth - cropWidth) / 2;
+                cropY = 0;
+            } else {
+                // Original image is taller than or equal to target, so crop the height
+                cropWidth = originalWidth;
+                cropHeight = originalWidth / targetRatio;
+                cropX = 0;
+                cropY = (originalHeight - cropHeight) / 2;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = cropWidth;
+            canvas.height = cropHeight;
+            const ctx = canvas.getContext('2d');
+
+            if (!ctx) {
+                return reject(new Error('Could not get canvas context for cropping.'));
+            }
+
+            ctx.drawImage(
+                img,
+                cropX,
+                cropY,
+                cropWidth,
+                cropHeight,
+                0,
+                0,
+                cropWidth,
+                cropHeight
+            );
+
+            resolve(canvas.toDataURL('image/png'));
+        };
+        img.onerror = (err) => {
+            const errorMessage = typeof err === 'string' ? err : (err instanceof Event ? 'Image load event error' : 'Unknown image load error');
+            reject(new Error(`Failed to load image for cropping: ${errorMessage}`));
+        };
+        img.src = dataUrl;
+    });
+};
+
 
 // --- VEO Utils ---
 

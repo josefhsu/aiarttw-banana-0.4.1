@@ -1,5 +1,3 @@
-
-
 import { GoogleGenAI, Modality, Part, Type } from "@google/genai";
 import type { AspectRatio, GeneratedImage, UploadedImage, VeoAspectRatio, VeoHistoryItem, VeoParams, Toast } from "../types";
 import { fileToBase64, generateVideoThumbnail, dataURLtoFile } from "../utils";
@@ -22,7 +20,22 @@ export const generateImages = async (
     
     if (referenceImages.length > 0) {
         const parts: Part[] = [];
-        for (const img of referenceImages) {
+
+        // The calling function in App.tsx ensures the placeholder is at referenceImages[0].
+        // We make it the first part, followed by the prompt, then other reference images.
+        // This structure gives the model a clear instruction on the canvas and content.
+        const canvasImage = referenceImages[0];
+        parts.push({
+            inlineData: {
+                data: await fileToBase64(canvasImage.file),
+                mimeType: canvasImage.file.type,
+            },
+        });
+        
+        parts.push({ text: prompt });
+
+        for (let i = 1; i < referenceImages.length; i++) {
+            const img = referenceImages[i];
             parts.push({
                 inlineData: {
                     data: await fileToBase64(img.file),
@@ -30,7 +43,6 @@ export const generateImages = async (
                 },
             });
         }
-        parts.push({ text: prompt });
 
         const response = await ai.models.generateContent({
             model: IMAGE_EDIT_MODEL,
@@ -79,7 +91,7 @@ export const generateImages = async (
     }
 };
 
-export const getEditingSuggestion = async (file: File): Promise<{ description: string, suggestion: string }> => {
+export const getEditingSuggestion = async (file: File): Promise<{ analysis_prompt: string, suggestion: string }> => {
     const base64Data = await fileToBase64(file);
     const mimeType = file.type;
     const editingGuideString = JSON.stringify(EDITING_EXAMPLES);
@@ -90,12 +102,12 @@ export const getEditingSuggestion = async (file: File): Promise<{ description: s
             parts: [
                 { inlineData: { data: base64Data, mimeType } },
                 { text: `Analyze this image and the provided editing guide.
-                1.  First, briefly describe the main subject and scene in traditional Chinese. The description should be concise and engaging.
-                2.  Second, based on your description, choose the single most fitting editing prompt from the guide that would be a creative and interesting modification.
+                1. First, create a detailed and descriptive base prompt in Traditional Chinese that could be used to generate this image. This is the "analysis prompt".
+                2. Second, based on the image, choose the single most fitting editing suggestion from the editing guide that would be a creative and interesting modification.
                 
                 Editing Guide: ${editingGuideString}
                 
-                Return a JSON object with two keys: "description" (your analysis in traditional Chinese) and "suggestion" (the exact prompt string from the guide).` },
+                Return a JSON object with two keys: "analysis_prompt" (the descriptive base prompt you created) and "suggestion" (the exact editing prompt string chosen from the guide).` },
             ]
         },
         config: {
@@ -103,10 +115,10 @@ export const getEditingSuggestion = async (file: File): Promise<{ description: s
             responseSchema: {
                 type: Type.OBJECT,
                 properties: {
-                    description: { type: Type.STRING, description: '對圖片的簡潔中文描述' },
+                    analysis_prompt: { type: Type.STRING, description: '基於圖片分析生成的詳細中文提示詞' },
                     suggestion: { type: Type.STRING, description: '從指南中選擇的最推薦的改圖提示' }
                 },
-                propertyOrdering: ["description", "suggestion"]
+                propertyOrdering: ["analysis_prompt", "suggestion"]
             }
         }
     });
@@ -114,7 +126,7 @@ export const getEditingSuggestion = async (file: File): Promise<{ description: s
     try {
         const jsonText = response.text.trim();
         const json = JSON.parse(jsonText);
-        if (json.description && json.suggestion) {
+        if (json.analysis_prompt && json.suggestion) {
             return json;
         }
         throw new Error("Invalid JSON structure in suggestion response.");
