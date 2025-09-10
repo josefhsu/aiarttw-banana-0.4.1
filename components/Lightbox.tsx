@@ -11,9 +11,10 @@ interface LightboxProps {
   onZoomOut: (item: GeneratedImage) => void;
   onUseImage: (image: GeneratedImage, action: 'reference' | 'remove_bg' | 'draw_bg') => void;
   onSendImageToVeo: (image: GeneratedImage, frame: 'start' | 'end') => void;
+  onUe5Upgrade: (image: GeneratedImage) => void;
 }
 
-export const Lightbox: React.FC<LightboxProps> = ({ config, onClose, onUpscale, onZoomOut, onUseImage, onSendImageToVeo }) => {
+export const Lightbox: React.FC<LightboxProps> = ({ config, onClose, onUpscale, onZoomOut, onUseImage, onSendImageToVeo, onUe5Upgrade }) => {
     if (!config) return null;
 
     const { images, startIndex } = config;
@@ -183,6 +184,9 @@ export const Lightbox: React.FC<LightboxProps> = ({ config, onClose, onUpscale, 
                     <button onClick={() => onZoomOut(currentImage)} title="Zoom out 2x" className="p-2 text-white themed-button-secondary rounded-full"> <ZoomOutIcon className="w-5 h-5" /> </button>
                     <button onClick={() => onSendImageToVeo(currentImage, 'start')} title="用於首幀" className="p-2 text-white themed-button-secondary rounded-full"> <SendToStartFrameIcon className="w-5 h-5" /> </button>
                     <button onClick={() => onSendImageToVeo(currentImage, 'end')} title="用於尾幀" className="p-2 text-white themed-button-secondary rounded-full"> <SendToEndFrameIcon className="w-5 h-5" /> </button>
+                    <button onClick={() => onUe5Upgrade(currentImage)} title="升級為 UE5 真實感" className="p-2 text-white themed-button-secondary rounded-full flex items-center justify-center">
+                        <span className="font-bold text-xs">UE5</span>
+                    </button>
                     <span className="text-xs font-mono bg-black/30 px-2 py-1 rounded">{(zoom * 100).toFixed(0)}%</span>
                 </div>
             </div>

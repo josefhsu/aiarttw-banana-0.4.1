@@ -1,4 +1,5 @@
 
+
 import { GoogleGenAI, Modality, Part, Type } from "@google/genai";
 import type { AspectRatio, GeneratedImage, UploadedImage, VeoAspectRatio, VeoHistoryItem, VeoParams, Toast } from "../types";
 import { fileToBase64, generateVideoThumbnail, dataURLtoFile } from "../utils";
@@ -221,13 +222,16 @@ export const analyzeImage = async (file: File): Promise<{ score: string; analysi
     }
 };
 
-export const enhanceWebcamImage = async (base64Data: string, mimeType: string): Promise<string> => {
+export const enhanceWebcamImage = async (file: File): Promise<string> => {
+    const base64Data = await fileToBase64(file);
+    const mimeType = file.type;
+
     const response = await ai.models.generateContent({
         model: IMAGE_EDIT_MODEL,
         contents: {
             parts: [
                 { inlineData: { data: base64Data, mimeType: mimeType } },
-                { text: 'Enhance this webcam photo to improve lighting, clarity, and overall quality, making it look more professional.' },
+                { text: 'Enhance this webcam photo to improve lighting, clarity, and overall quality, making it look more professional. Apply tone-mapping to balance shadows and highlights.' },
             ],
         },
         config: { responseModalities: [Modality.IMAGE, Modality.TEXT] },

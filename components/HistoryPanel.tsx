@@ -17,6 +17,7 @@ interface HistoryPanelProps {
   onUpscale: (src: string) => void;
   onZoomOut: (item: HistoryItem) => void;
   onSendImageToVeo: (image: GeneratedImage, frame: 'start' | 'end') => void;
+  onUe5Upgrade: (image: GeneratedImage) => void;
 }
 
 const HistoryGallery: React.FC<{
@@ -78,6 +79,7 @@ export const HistoryPanel: React.FC<HistoryPanelProps> = ({
   addToast,
   onSendImageToVeo,
   onZoomOut,
+  onUe5Upgrade,
   ...analysisPanelProps
 }) => {
   return (
@@ -94,6 +96,7 @@ export const HistoryPanel: React.FC<HistoryPanelProps> = ({
                     addToast={addToast}
                     onSendImageToVeo={onSendImageToVeo}
                     onZoomOut={() => onZoomOut(selectedItem)}
+                    onUe5Upgrade={onUe5Upgrade}
                     {...analysisPanelProps}
                  />
             ) : (

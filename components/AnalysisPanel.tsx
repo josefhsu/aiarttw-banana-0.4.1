@@ -13,6 +13,7 @@ interface AnalysisPanelProps {
   onUpscale: (src: string) => void;
   onZoomOut: () => void;
   onSendImageToVeo: (image: GeneratedImage, frame: 'start' | 'end') => void;
+  onUe5Upgrade: (image: GeneratedImage) => void;
 }
 
 const ActionButton: React.FC<{ onClick: () => void; icon: React.FC<any>; label: string; disabled?: boolean }> = 
@@ -60,6 +61,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
     onUpscale,
     onZoomOut,
     onSendImageToVeo,
+    onUe5Upgrade,
 }) => {
   const handleDownload = () => {
     const safeFilename = image.alt.replace(/[^a-z0-9\u4e00-\u9fa5]/gi, '_').toLowerCase();
@@ -96,6 +98,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
                 <ActionButton onClick={onZoomOut} icon={ZoomOutIcon} label="Zoom Out" />
                 <ActionButton onClick={() => onSendImageToVeo(image, 'start')} icon={SendToStartFrameIcon} label="用於首幀" />
                 <ActionButton onClick={() => onSendImageToVeo(image, 'end')} icon={SendToEndFrameIcon} label="用於尾幀" />
+                <ActionButton onClick={() => onUe5Upgrade(image)} icon={() => <span className="font-bold text-xs w-4 h-4 flex items-center justify-center">UE5</span>} label="升級為 UE5 真實感" />
             </div>
             <div className="mt-2">
                 <ActionButton onClick={() => onDeleteHistoryItem(image.id)} icon={TrashIcon} label="刪除此紀錄" />

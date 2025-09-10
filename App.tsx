@@ -118,6 +118,28 @@ const App: React.FC = () => {
         }, 5000); // Increased duration for important messages
     }, []);
 
+    // --- UI Handlers ---
+    const onAspectRatioSelect = useCallback((ratio: AspectRatio) => {
+        setSelectedAspectRatio(ratio);
+        setDrawAspectRatio(ratio);
+    
+        const [w, h] = ratio.split(':').map(Number);
+        const placeholderImage: UploadedImage = {
+            src: createPlaceholderImage(ratio, '#808080'),
+            file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
+            isPlaceholder: true,
+            width: w * 100,
+            height: h * 100,
+        };
+        
+        setNclPlaceholderImage(placeholderImage);
+    
+        if (appMode === 'GENERATE') {
+            const existingNonPlaceholder = referenceImages.filter(img => !img.isPlaceholder);
+            setReferenceImages([placeholderImage, ...existingNonPlaceholder]);
+        }
+    }, [appMode, referenceImages]);
+
     // --- Effects ---
     
     // Theme manager
@@ -253,7 +275,7 @@ const App: React.FC = () => {
         setImages([]);
 
         try {
-            const placeholderPrompt = "4k high-quality,將生成內容重新繪製到灰色參考圖上，如有空白加入符合內容的outpaint以適合灰色參考圖的寬高比，完全佔滿取代灰色參考圖的所有內容(包含底色背景)，僅保留灰色參考圖的寬高比";
+            const placeholderPrompt = "將生成內容重新繪製到灰色參考圖上，如有空白加入符合內容的outpaint以適合灰色參考圖的寬高比，完全佔滿取代灰色參考圖的所有內容(包含底色背景)，僅保留灰色參考圖的寬高比，不要有任何灰色背景或邊框露出";
             
             const getOrCreatePlaceholder = (ratio: AspectRatio): UploadedImage => {
                 const [w, h] = ratio.split(':').map(Number);
@@ -425,17 +447,47 @@ const App: React.FC = () => {
     ]);
 
     const handleUe5Upgrade = useCallback(async (imageToUpgrade: GeneratedImage) => {
-        if (appMode !== 'NIGHT_CITY_LEGENDS' || !imageToUpgrade.prompt) {
+        const isNCLPrompt = imageToUpgrade.prompt && (
+            imageToUpgrade.prompt.includes('cyberpunk setting') ||
+            imageToUpgrade.prompt.includes('CRITICAL DIRECTIVE FOR FACIAL LIKENESS') ||
+            imageToUpgrade.prompt.includes('Night City')
+        );
+    
+        if (!isNCLPrompt) {
             addToast('此功能僅適用於夜城傳奇模式生成的圖片', 'error');
             return;
         }
-        addToast('正在升級至 UE5 真實感...', 'info');
+        
+        // Switch to NCL mode
+        setAppMode('NIGHT_CITY_LEGENDS');
+        setLightboxConfig(null); // Close lightbox if it's open
+    
+        // Setup the panel for upgrade
+        const file = dataURLtoFile(imageToUpgrade.src, 'upgrade-ref.png');
+        const uploaded: UploadedImage = { src: imageToUpgrade.src, file, width: imageToUpgrade.width, height: imageToUpgrade.height };
+        setCharacterImage(uploaded);
+        
         const cinematicPrompt = '8K 超寫實 Path-tracing ,UE 5 超逼真質感, 電影光線氛圍, ultra realistic, 8K Ray-tracing HDR Hyper-Realistic RTX-5090';
-        // Use the original prompt from the image and append the cinematic modifier
-        const upgradedPrompt = `${imageToUpgrade.prompt}, ${cinematicPrompt}`;
-        // Re-run generation with the exact same settings but the new prompt for a single image
-        await handleGenerate({ overridePrompt: upgradedPrompt });
-    }, [appMode, handleGenerate, addToast]);
+        const upgradedPrompt = imageToUpgrade.prompt ? `${imageToUpgrade.prompt}, ${cinematicPrompt}` : cinematicPrompt;
+        setPromptText(upgradedPrompt);
+    
+        if (imageToUpgrade.aspectRatio && ASPECT_RATIOS.includes(imageToUpgrade.aspectRatio as AspectRatio)) {
+            onAspectRatioSelect(imageToUpgrade.aspectRatio as AspectRatio);
+        }
+        
+        // Clear other NCL settings to avoid confusion
+        setCustomWeaponImages([]);
+        setCustomCompanionImages([]);
+        setSelectedWeapon('不裝備');
+        setSelectedVehicle('不駕駛');
+        setSelectedCompanion('單獨行動');
+        setSelectedDirector('隨機導演');
+        setSelectedMission('隨機任務');
+        setIsCinematicRealism(true); // check the box
+        setSelectedScenes([]);
+    
+        addToast('已為您載入升級設定！請確認後點擊「改裝腦機」。', 'success');
+    }, [addToast, onAspectRatioSelect]);
 
     const handleRandomSceneGeneration = useCallback(async () => {
         if (!characterImage && !promptText) {
@@ -652,27 +704,6 @@ const App: React.FC = () => {
 
     // --- UI Handlers ---
 
-    const onAspectRatioSelect = (ratio: AspectRatio) => {
-        setSelectedAspectRatio(ratio);
-        setDrawAspectRatio(ratio);
-    
-        const [w, h] = ratio.split(':').map(Number);
-        const placeholderImage: UploadedImage = {
-            src: createPlaceholderImage(ratio, '#808080'),
-            file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
-            isPlaceholder: true,
-            width: w * 100,
-            height: h * 100,
-        };
-        
-        setNclPlaceholderImage(placeholderImage);
-    
-        if (appMode === 'GENERATE') {
-            const existingNonPlaceholder = referenceImages.filter(img => !img.isPlaceholder);
-            setReferenceImages([placeholderImage, ...existingNonPlaceholder]);
-        }
-    };
-
     const handleCustomImageUpload = useCallback(async (newImages: UploadedImage[], type: 'weapon' | 'companion') => {
         const setImageState = type === 'weapon' ? setCustomWeaponImages : setCustomCompanionImages;
         
@@ -769,16 +800,12 @@ const App: React.FC = () => {
     const onUseImage = useCallback((image: GeneratedImage, action: 'reference' | 'remove_bg' | 'draw_bg') => {
         const file = dataURLtoFile(image.src, `used-${image.id}.png`);
         const uploaded: UploadedImage = { src: image.src, file, width: image.width, height: image.height };
-
+    
         switch(action) {
             case 'reference':
-                if (appMode === 'NIGHT_CITY_LEGENDS') {
-                    if (!characterImage) setCharacterImage(uploaded);
-                    else addToast("角色圖片已存在", "info");
-                } else {
-                    setReferenceImages(prev => [...prev, uploaded].slice(0, 8));
-                }
-                setAppMode(appMode === 'NIGHT_CITY_LEGENDS' ? 'NIGHT_CITY_LEGENDS' : 'GENERATE');
+                // Always send to generic generate mode's reference images
+                setReferenceImages(prev => [...prev.filter(i => !i.isPlaceholder), uploaded].slice(0, 8));
+                setAppMode('GENERATE');
                 addToast("圖片已添加至參考圖", "success");
                 break;
             case 'remove_bg':
@@ -792,7 +819,7 @@ const App: React.FC = () => {
                 break;
         }
         setLightboxConfig(null);
-    }, [addToast, appMode, characterImage]);
+    }, [addToast]);
     
     const onUseHistoryImage = useCallback((item: HistoryItem, targetMode: AppMode) => {
         const file = dataURLtoFile(item.src, `history-img.png`);
@@ -1018,6 +1045,7 @@ const App: React.FC = () => {
                     onUpscale={onUpscale}
                     onZoomOut={(item) => onZoomOut(item)}
                     onSendImageToVeo={handleSendImageToVeo}
+                    onUe5Upgrade={handleUe5Upgrade}
                 />;
             case 'DRAW':
                 return <main className="flex-1 flex flex-col p-2 md:p-4 bg-transparent min-w-0"><DrawingCanvas 
@@ -1136,6 +1164,7 @@ const App: React.FC = () => {
                     onZoomOut={onZoomOut}
                     onUseImage={onUseImage}
                     onSendImageToVeo={handleSendImageToVeo}
+                    onUe5Upgrade={handleUe5Upgrade}
                 />
             )}
             
