@@ -597,24 +597,29 @@ export const IMMERSIVE_QUALITY_PROMPTS = [
 ];
 
 export const NIGHT_CITY_WEAPONS = {
+    '義體改造 (Cyberware Arms)': [
+        'Mantis Blades (螳螂刀)', 'Gorilla Arms (大力拳套)', 'Monowire (單分子線)', 'Projectile Launch System (射彈發射系統)'
+    ],
+    '不朽武士刀 (Iconic Katanas)': [
+        'Jinchu-Maru (盡忠丸)', 'Satori (悟)', 'Scalpel (手術刀)', 'Tsumetogi (爪磨)', 'Byakko (白虎)', 'Nehan (涅槃)', 'Errata (正宗)'
+    ],
     '手槍 (Pistols)': [
-        'A-22B Chao (超)', 'M-10AF Lexington (列星頓)', 'Slaught-O-Matic (販賣機)', 'Unity (團結)', 'Liberty (自由)', 'Kongou (金剛)', 'La Chingona Dorada (金色狠婆娘)', 'Malorian Arms 3516 (マロリアン・アームズ 3516)', 'nue (鵺)', 'Overture (序曲)', 'Pride (傲天)', 'Seraph (熾天使)', 'Tamayura (玉響)', 'Dying Night (垂死之夜)', 'Genjiroh (源二郎)', 'JKE-X2 Kenshin (覺)', 'Lexington x-MOD2', 'Her Majesty (女王陛下)'
+        'A-22B Chao (超)', 'M-10AF Lexington (列星頓)', 'Slaught-O-Matic (販賣機)', 'Unity (團結)', 'Liberty (自由)', 'Kongou (金剛)', 'La Chingona Dorada (金色狠婆娘)', 'Malorian Arms 3516 (マロリアン・アームズ 3516)', 'nue (鵺)', 'Pride (傲天)', 'Seraph (熾天使)', 'Tamayura (玉響)', 'Dying Night (垂死之夜)', 'Genjiroh (源二郎)', 'JKE-X2 Kenshin (覺)', 'Lexington x-MOD2', 'Her Majesty (女王陛下)', 'Skippy (小嗶)', 'Plan B (B計畫)', 'Apparition (幽靈)', 'Death and Taxes (死亡與稅金)'
     ],
     '左輪手槍 (Revolvers)': [
         'DR-5 Nova (新星)', 'Overture (序曲)', 'RT-46 Burya (風暴)', 'Amnesty (大赦)', "Archangel (大天使)", "Comrade's Hammer (同志的鐵鎚)", "Crash (克拉什)", 'DR12 Quasar (類星體)', 'M-76E Omaha (奧馬哈)', 'Metel (暴雪)', 'Rasetsu (羅剎)', 'Riskit', "Rosco", "Taigan (大我)"
     ],
     '衝鋒槍 (Submachine Guns)': [
-        'DS1 Pulsar (脈衝星)', 'M2038 Tactician (戰術家)', 'G-58 Dian (電光)', 'M221 Saratoga (薩拉多加)', 'TKI-20 Shingen (信玄)', 'Buzzsaw (電鋸)', 'Chesapeake', 'Errata (正宗)', 'Fenrir (芬里爾)', 'Guinevere (桂妮薇兒)', 'Haumea', 'Pizdets (滅 pistola)', 'Problem Solver (問題解決者)', 'Shigure (時雨)', 'Warden (典獄長)', 'Yinglong (應龍)'
+        'DS1 Pulsar (脈衝星)', 'M2038 Tactician (戰術家)', 'G-58 Dian (電光)', 'M221 Saratoga (薩拉多加)', 'TKI-20 Shingen (信玄)', 'Buzzsaw (電鋸)', 'Chesapeake', 'Fenrir (芬里爾)', 'Guinevere (桂妮薇兒)', 'Haumea', 'Pizdets (滅 pistola)', 'Problem Solver (問題解決者)', 'Shigure (時雨)', 'Warden (典獄長)', 'Yinglong (應龍)'
     ],
     '突擊步槍 (Assault Rifles)': [
         'D5 Copperhead (銅斑蛇)', 'M251s Ajax (阿賈克斯)', 'MA70 HB (MA70 HB)', 'Nokota D5 Sidewinder', 'HJSH-18 Masamune (正宗)', 'DA8 Umbra (本影)', 'Nowaki (野分)', 'Divided We Stand (團結則存)', 'Hawk', 'Hercules 3AX', 'Kyubi (九尾)', 'Moron Labe (莫倫拉貝)', 'Prejudice (偏見)', 'Psalm 11:6 (詩篇 11:6)', 'Carmen', 'PDR', 'UDA'
     ],
-
     '步槍 (Rifles)': [
         'Achilles (阿基里斯)', 'SOR-22 (SOR-22)', 'ARASAKA KAGE-BOSHI', 'Overwatch (守望)', 'Widow Maker (寡婦製造者)', 'Tsunami (海嘯)', 'Ashura (阿修羅)', 'Nekomata (貓又)', 'Breakthrough (突破)', "Raiju (雷獸)", "Sparky"
     ],
     '狙擊步槍 (Sniper Rifles)': [
-        'SPT32 Grad (冰雹)', 'Nekomata (貓又)', 'Overwatch (守望)', 'O\'Five (零五)', 'Borzaya', "Ilya's SNIPER RIFLE", 'KSR-29', "NDI-46 'Reaper'"
+        'SPT32 Grad (冰雹)', 'Nekomata (貓又)', 'O\'Five (零五)', 'Borzaya', "Ilya's SNIPER RIFLE", 'KSR-29', "NDI-46 'Reaper'"
     ],
     '霰彈槍 (Shotguns)': [
         'Carnage (殺戮)', 'DB-2 Satara (薩塔拉)', 'DB-4 Igla (伊格拉)', 'M2038 Tactician (戰術家)', 'VST-37 Pozhar', 'Zhuo Ba-Xing Chong (八星銃)', 'Alabai', "Baobab", "Bloody Maria", "Dezerter", "Guts (腸子)", "Headsman (劊子手)", "Mox", "Rebecca's Shotgun", "Sovereign (元首)", "The Devil"
@@ -626,7 +631,7 @@ export const NIGHT_CITY_WEAPONS = {
         'HMG MK.31', 'Budget Arms Carnage'
     ],
     '近戰武器 (Melee Weapons)': [
-        'Katana (武士刀)', 'Tanto (短刀)', 'Machete (彎刀)', 'Axe (斧)', 'Baseball Bat (球棒)', 'Crowbar (撬棍)', 'Hammer (錘)', 'Knife (小刀)', 'Pipe Wrench (管鉗)', 'Tire Iron (輪胎扳手)', 'Gold-Plated Baseball Bat (鍍金球棒)', 'Cottonmouth (水蝮蛇)', 'Jinchu-Maru (盡忠丸)', 'Satori (悟)', 'Scalpel (手術刀)', 'Stinger (毒刺)', 'Tsumetogi (爪磨)', "Byakko (白虎)", "Cocktail Stick (雞尾酒棒)", "Gwynbleidd", "Headhunter (獵頭)", "Nehan (涅槃)", "Neurotoxin Knife", "Ol' Reliable", "Rose"
+        'Katana (武士刀)', 'Tanto (短刀)', 'Machete (彎刀)', 'Axe (斧)', 'Baseball Bat (球棒)', 'Crowbar (撬棍)', 'Hammer (錘)', 'Knife (小刀)', 'Pipe Wrench (管鉗)', 'Tire Iron (輪胎扳手)', 'Gold-Plated Baseball Bat (鍍金球棒)', 'Cottonmouth (水蝮蛇)', 'Stinger (毒刺)', "Cocktail Stick (雞尾酒棒)", "Gwynbleidd", "Headhunter (獵頭)", "Ol' Reliable", "Rose"
     ],
 };
 
@@ -695,4 +700,35 @@ export const NCL_OPTIONS = {
     lifePath: [
         "不指定", "公司員工", "街頭小子", "流浪者", "網路駭客 (Netrunner)", "技師 (Techie)", "獨武俠 (Solo)", "媒體人 (Media)", "警察 (NCPD Officer)", "黑幫成員", "情報販子 (Fixer)", "叛逃的公司特工", "清道夫 (Scavenger)", "腦舞技師 (Braindance Technician)", "創傷小組成員 (Trauma Team)", "軍用科技士兵 (Militech Soldier)", "荒坂特工 (Arasaka Agent)", "超夢明星 (Braindance Star)", "賞金獵人", "走私客", "非法醫生 (Ripperdoc)", "宗教狂熱份子", "政治家", "地下拳擊手", "藝術家",
     ]
+};
+
+export const NCL_OUTFITS_AND_CYBERWARE = {
+    headwear: {
+        label: "頭部",
+        options: ["不指定", "高科技安全帽", "戰術護目鏡", "強化現實(AR)眼罩", "防毒面具", "生化眼", "腦機介面插槽", "霓虹面紋", "金屬面具", "反光飛行員眼鏡", "兜帽", "棒球帽", "針織帽", "頭巾", "防彈面罩"]
+    },
+    outerwear: {
+        label: "外衣",
+        options: ["不指定", "裝甲防彈背心", "經典皮夾克", "高領長版風衣", "公司西裝外套", "LED發光外套", "迷彩派克大衣", "流浪者風格補丁背心", "和服式外套", "機能夾克", "全像投影廣告披風", "厚重的毛領大衣", "防護外套", "無袖背心", "緊身胸衣"]
+    },
+    innerwear: {
+        label: "內搭",
+        options: ["不指定", "緊身機能衣", "網狀上衣", "防彈襯衫", "復古樂團T恤", "破洞背心", "高領毛衣", "公司制服襯衫", "半透明上衣", "運動胸衣", "無袖襯衫", "坦克背心", "有領襯衫"]
+    },
+    legwear: {
+        label: "腿部",
+        options: ["不指定", "戰術長褲", "緊身皮褲", "機能緊身褲", "寬鬆工裝褲", "裝甲護腿", "公司西褲", "破洞牛仔褲", "運動短褲", "迷你裙", "長裙", "高腰褲", "連身褲"]
+    },
+    footwear: {
+        label: "足部",
+        options: ["不指定", "重型戰鬥靴", "高筒運動鞋", "金屬護腿靴", "公司皮鞋", "輕便跑鞋", "磁懸浮靴", "西部靴", "過膝長靴", "涼鞋", "高跟鞋"]
+    },
+    faceCyberware: {
+        label: "臉部義體",
+        options: ["不指定", "奇美拉光學儀", "克羅斯尼科夫眼", "面部金屬板", "皮膚下LED發光紋路", "改造下顎", "合成皮膚", "眼部攝影機", "語音合成器格柵", "鼻部過濾器"]
+    },
+    bodyCyberware: {
+        label: "身體義體",
+        options: ["不指定", "皮下裝甲", "脊椎外骨骼", "合成肌肉纖維", "生物監測器植入", "胸口發光裝置", "外露的機械關節", "碳纖維骨骼", "肩部植入物", "腹部電鍍"]
+    }
 };

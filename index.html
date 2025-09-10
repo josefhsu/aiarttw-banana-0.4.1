@@ -142,6 +142,40 @@
     animation-delay: -2s;
   }
   
+  /* --- Main Content Area Glow --- */
+  body.cyber-bg .main-content-area {
+    overflow: hidden; /* To contain the glow */
+  }
+
+  body.cyber-bg .main-content-area::before,
+  body.cyber-bg .main-content-area::after {
+      content: '';
+      position: absolute;
+      z-index: 0; /* Behind the content */
+      border-radius: 50%;
+      pointer-events: none;
+      animation: large-glow-breathe 10s ease-in-out infinite;
+      filter: blur(75px);
+  }
+
+  body.cyber-bg .main-content-area::before {
+      top: -25%;
+      left: -25%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
+      animation-delay: 0s;
+  }
+
+  body.cyber-bg .main-content-area::after {
+      bottom: -25%;
+      right: -25%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, rgba(255, 0, 255, 0.1) 0%, transparent 60%);
+      animation-delay: -5s;
+  }
+
   /* --- NCL Loading Animation --- */
   body.cyber-bg .ncl-loading-container {
     position: absolute;
@@ -224,6 +258,16 @@
     0%, 100% { transform: scale(0.8); opacity: 0.7; }
     50% { transform: scale(1.2); opacity: 1; }
   }
+  @keyframes large-glow-breathe {
+      0%, 100% {
+          transform: scale(0.9);
+          opacity: 0.6;
+      }
+      50% {
+          transform: scale(1.2);
+          opacity: 1;
+      }
+  }
   @keyframes scanline {
     0% { transform: translateY(-10px); }
     100% { transform: translateY(100vh); }
@@ -260,6 +304,13 @@
     animation: none !important;
     cursor: not-allowed !important;
     opacity: 0.7 !important;
+  }
+
+  /* --- Desktop Font Size Increase --- */
+  @media (min-width: 1024px) {
+    html {
+      font-size: 18px; /* Default is 16px, this is ~2pt increase for better readability on desktop */
+    }
   }
 
   /* --- Classic Theme --- */

@@ -16,18 +16,21 @@ interface ResultPanelProps {
   onSetLightboxConfig: (images: GeneratedImage[], startIndex: number) => void;
   onUseImage: (image: GeneratedImage, action: 'reference' | 'remove_bg' | 'draw_bg') => void;
   onSendImageToVeo: (image: GeneratedImage, frame: 'start' | 'end') => void;
+  onUe5Upgrade?: (image: GeneratedImage) => void;
 }
 
 const ImageCard: React.FC<{
     image: GeneratedImage;
     index: number;
     images: GeneratedImage[];
+    appMode: AppMode;
     onUpscale: (src: string) => void;
     onZoomOut: (item: GeneratedImage) => void;
     onSetLightboxConfig: (images: GeneratedImage[], startIndex: number) => void;
     onUseImage: (image: GeneratedImage, action: 'reference' | 'remove_bg' | 'draw_bg') => void;
     onSendImageToVeo: (image: GeneratedImage, frame: 'start' | 'end') => void;
-}> = ({ image, index, images, onUpscale, onZoomOut, onSetLightboxConfig, onUseImage, onSendImageToVeo }) => {
+    onUe5Upgrade?: (image: GeneratedImage) => void;
+}> = ({ image, index, images, appMode, onUpscale, onZoomOut, onSetLightboxConfig, onUseImage, onSendImageToVeo, onUe5Upgrade }) => {
     
     const handleDownload = () => {
         const safeFilename = (image.prompt || image.alt).replace(/[^a-z0-9\u4e00-\u9fa5]/gi, '_').toLowerCase();
@@ -48,7 +51,13 @@ const ImageCard: React.FC<{
                     <button onClick={() => onUpscale(image.src)} title="提升畫質" className="p-2 text-white themed-button-secondary rounded-full"> <ExpandIcon className="w-5 h-5" /> </button>
                     <button onClick={() => onZoomOut(image)} title="Zoom out 2x" className="p-2 text-white themed-button-secondary rounded-full"> <ZoomOutIcon className="w-5 h-5" /> </button>
                     <button onClick={() => onSendImageToVeo(image, 'start')} title="用於首幀" className="p-2 text-white themed-button-secondary rounded-full"> <SendToStartFrameIcon className="w-5 h-5" /> </button>
-                    <button onClick={() => onSendImageToVeo(image, 'end')} title="用於尾幀" className="p-2 text-white themed-button-secondary rounded-full"> <SendToEndFrameIcon className="w-5 h-5" /> </button>
+                    {appMode === 'NIGHT_CITY_LEGENDS' && onUe5Upgrade ? (
+                        <button onClick={() => onUe5Upgrade(image)} title="升級為 UE5 真實感" className="p-2 text-white themed-button-secondary rounded-full flex items-center justify-center">
+                           <span className="font-bold text-xs">UE5</span>
+                        </button>
+                    ) : (
+                         <button onClick={() => onSendImageToVeo(image, 'end')} title="用於尾幀" className="p-2 text-white themed-button-secondary rounded-full"> <SendToEndFrameIcon className="w-5 h-5" /> </button>
+                    )}
                 </div>
             </div>
             {image.width && image.height && image.size && (
@@ -61,9 +70,19 @@ const ImageCard: React.FC<{
 };
 
 
-export const ResultPanel: React.FC<ResultPanelProps> = ({ appMode, images, isLoading, error, onPromptSelect, onUpscale, onZoomOut, onSetLightboxConfig, onUseImage, onSendImageToVeo }) => {
+export const ResultPanel: React.FC<ResultPanelProps> = ({ appMode, images, isLoading, error, onPromptSelect, onUpscale, onZoomOut, onSetLightboxConfig, onUseImage, onSendImageToVeo, onUe5Upgrade }) => {
 
   const hasContent = images.length > 0 || isLoading || error;
+  
+  const getGridClass = (imageCount: number) => {
+    if (imageCount <= 0) return '';
+    if (imageCount === 1) return 'grid-cols-1';
+    if (imageCount === 2) return 'grid-cols-1 md:grid-cols-2';
+    if (imageCount === 3) return 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3';
+    if (imageCount === 4) return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
+    // For 5 or more, use the fully responsive 5-col max grid
+    return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5';
+  };
 
   return (
     <main className="flex-1 flex flex-col p-2 md:p-4 bg-transparent min-w-0 overflow-y-auto cyber-glow-corners">
@@ -92,18 +111,20 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({ appMode, images, isLoa
             </div>
           )}
           {images.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className={`grid ${getGridClass(images.length)} gap-4`}>
               {images.map((image, index) => (
                 <ImageCard 
                     key={image.id} 
                     image={image}
                     index={index}
                     images={images}
+                    appMode={appMode}
                     onUpscale={onUpscale} 
                     onZoomOut={onZoomOut} 
                     onSetLightboxConfig={onSetLightboxConfig}
                     onUseImage={onUseImage}
                     onSendImageToVeo={onSendImageToVeo}
+                    onUe5Upgrade={onUe5Upgrade}
                 />
               ))}
             </div>

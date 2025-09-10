@@ -56,11 +56,19 @@ const App: React.FC = () => {
     const [hairStyle, setHairStyle] = useState('從掃描檔中自動偵測');
     const [hairColor, setHairColor] = useState('從掃描檔中自動偵測');
     const [expression, setExpression] = useState('從掃描檔中自動偵測');
+    const [headwear, setHeadwear] = useState('不指定');
+    const [outerwear, setOuterwear] = useState('不指定');
+    const [innerwear, setInnerwear] = useState('不指定');
+    const [legwear, setLegwear] = useState('不指定');
+    const [footwear, setFootwear] = useState('不指定');
+    const [faceCyberware, setFaceCyberware] = useState('不指定');
+    const [bodyCyberware, setBodyCyberware] = useState('不指定');
     const [lifePath, setLifePath] = useState('不指定'); // Renamed from 'background' for clarity
     const [selectedScenes, setSelectedScenes] = useState<string[]>([]);
     const [selectedDirector, setSelectedDirector] = useState<string>('隨機導演');
     const [selectedMission, setSelectedMission] = useState<string>('隨機任務');
     const [nclPlaceholderImage, setNclPlaceholderImage] = useState<UploadedImage | null>(null);
+    const [isCinematicRealism, setIsCinematicRealism] = useState(false);
     const prevCharImage = useRef<UploadedImage | null>(null);
 
 
@@ -238,37 +246,46 @@ const App: React.FC = () => {
     
     // --- API Handlers ---
 
-    const handleGenerate = useCallback(async (options?: { scenes?: string[] }) => {
+    const handleGenerate = useCallback(async (options?: { scenes?: string[], overridePrompt?: string }) => {
         const scenesToGenerate = options?.scenes || selectedScenes;
         setIsLoading(true);
         setError(null);
         setImages([]);
 
         try {
+            const placeholderPrompt = "4k high-quality,將生成內容重新繪製到灰色參考圖上，如有空白加入符合內容的outpaint以適合灰色參考圖的寬高比，完全佔滿取代灰色參考圖的所有內容(包含底色背景)，僅保留灰色參考圖的寬高比";
+            
+            const getOrCreatePlaceholder = (ratio: AspectRatio): UploadedImage => {
+                const [w, h] = ratio.split(':').map(Number);
+                return {
+                    src: createPlaceholderImage(ratio, '#808080'),
+                    file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
+                    isPlaceholder: true,
+                    width: w * 100,
+                    height: h * 100,
+                };
+            };
+
             if (appMode === 'NIGHT_CITY_LEGENDS') {
                 setAppMode('NIGHT_CITY_LEGENDS');
                 if (!promptText.trim() && !characterImage) {
                     throw new Error("請輸入提示詞或上傳角色圖片");
                 }
                 
-                // Assemble reference images with the dedicated placeholder state ensuring it's always first.
+                const placeholder = getOrCreatePlaceholder(selectedAspectRatio);
+                
                 const finalReferenceImages = [
-                    nclPlaceholderImage,
+                    placeholder,
                     characterImage,
                     ...customWeaponImages,
                     ...customCompanionImages
                 ].filter((img): img is UploadedImage => !!img);
 
-                const hasPlaceholderImage = finalReferenceImages.some(img => img.isPlaceholder);
-
                 const basePromptParts: string[] = [];
                 basePromptParts.push(promptText || 'A character in a cyberpunk setting.');
                 
                 if (characterImage && !characterImage.isPlaceholder) {
-                    basePromptParts.push('IMPORTANT STYLE OVERRIDE: Use only the facial features and structure from the reference image.');
-                    basePromptParts.push('The character must be wearing stylish, intricate clothing inspired by Cyberpunk 2077 visuals.');
-                    basePromptParts.push('Their face and neck must have prominent, visible cybernetic interface lines and ports.');
-                    basePromptParts.push('Their body must feature significant cybernetic implants (義體), such as a chrome arm, augmented legs, or visible integrated tech.');
+                    basePromptParts.push('CRITICAL DIRECTIVE FOR FACIAL LIKENESS: The generated character\'s face MUST be a highly accurate, photorealistic representation of the face in the reference image. Replicate the facial structure, features (eyes, nose, mouth, jawline), and unique details with maximum fidelity. While enhancements for a cyberpunk aesthetic are permitted, the fundamental likeness to the reference person is the TOP priority and must not be lost.');
                 } else {
                     basePromptParts.push('The character must have prominent, visible cybernetic interface lines and ports on their face and neck.');
                     basePromptParts.push('Their body must feature significant cybernetic implants (義體), such as a chrome arm, augmented legs, or visible integrated tech.');
@@ -277,6 +294,13 @@ const App: React.FC = () => {
                 if (hairStyle !== '從掃描檔中自動偵測') basePromptParts.push(`Hair Style: ${hairStyle}`);
                 if (hairColor !== '從掃描檔中自動偵測') basePromptParts.push(`Hair Color: ${hairColor}`);
                 if (expression !== '從掃描檔中自動偵測') basePromptParts.push(`Expression: ${expression}`);
+                if (headwear !== '不指定') basePromptParts.push(`Headwear: ${headwear}`);
+                if (outerwear !== '不指定') basePromptParts.push(`Outerwear: ${outerwear}`);
+                if (innerwear !== '不指定') basePromptParts.push(`Innerwear: ${innerwear}`);
+                if (legwear !== '不指定') basePromptParts.push(`Legwear: ${legwear}`);
+                if (footwear !== '不指定') basePromptParts.push(`Footwear: ${footwear}`);
+                if (faceCyberware !== '不指定') basePromptParts.push(`Face Cyberware: ${faceCyberware}`);
+                if (bodyCyberware !== '不指定') basePromptParts.push(`Body Cyberware: ${bodyCyberware}`);
                 if (lifePath !== '不指定') basePromptParts.push(`Life Path: ${lifePath}`);
                 if (selectedWeapon !== '不裝備') basePromptParts.push(`Wielding weapon: ${selectedWeapon}`);
                 if (selectedVehicle !== '不駕駛') basePromptParts.push(`Driving or posing with vehicle: ${selectedVehicle}`);
@@ -284,7 +308,11 @@ const App: React.FC = () => {
                 if (selectedCompanion !== '單獨行動') basePromptParts.push(`With companion: ${selectedCompanion}`);
                 if (customCompanionImages.length > 0) basePromptParts.push(`The character is accompanied by the custom companion(s) shown in the reference images.`);
                 
-                // --- Realism & Quality Enhancement ---
+                const cinematicPrompt = '8K 超寫實 Path-tracing ,UE 5 超逼真質感, 電影光線氛圍, ultra realistic, 8K Ray-tracing HDR Hyper-Realistic RTX-5090';
+                if(isCinematicRealism) {
+                    basePromptParts.push(cinematicPrompt);
+                }
+
                 basePromptParts.push('The character must have realistic, well-proportioned human anatomy. Avoid exaggerated features like a large head or small body.');
                 basePromptParts.push('Negative prompt: deformed, bad anatomy, disfigured, poorly drawn face, mutation, mutated, extra limb, ugly, poorly drawn hands, missing limb, floating limbs, disconnected limbs, malformed hands, blurry, mutated hands, fingers, out of focus, long neck, long body, nsfw, hentai, child, childish');
                 const dynamicAction = DYNAMIC_ACTION_PROMPTS[Math.floor(Math.random() * DYNAMIC_ACTION_PROMPTS.length)];
@@ -292,12 +320,7 @@ const App: React.FC = () => {
 
                 let basePrompt = basePromptParts.join(', ');
                 basePrompt += `. Action: ${dynamicAction}. Visuals: ${qualityEnhancer}.`;
-
-                // Hidden Default Prompt for aspect ratio outpainting
-                if (hasPlaceholderImage) {
-                    const placeholderPrompt = "4k high-quality,將生成內容重新繪製到灰色參考圖上，如有空白加入符合內容的outpaint以適合灰色參考圖的寬高比，完全佔滿取代灰色參考圖的所有內容(包含底色背景)，僅保留灰色參考圖的寬高比";
-                    basePrompt = `${placeholderPrompt}, ${basePrompt}`;
-                }
+                basePrompt = `${placeholderPrompt}, ${basePrompt}`;
 
                 if (scenesToGenerate.length > 0) {
                     const allGeneratedImages: GeneratedImage[] = [];
@@ -347,21 +370,23 @@ const App: React.FC = () => {
                     addToHistory(allGeneratedImages);
                     addToast(`已完成 ${allGeneratedImages.length} 個場景的生成！`, 'success');
                 } else {
-                     let finalPrompt = basePrompt;
-                     let directorStylePrompt = '';
-                     if (selectedDirector !== '隨機導演') {
-                         const director = UNIFIED_DIRECTOR_STYLES.find(d => d.name === selectedDirector);
-                         directorStylePrompt = director ? director.prompt : '';
-                     } else {
-                         const actualDirectors = UNIFIED_DIRECTOR_STYLES.filter(d => d.name !== '隨機導演');
-                         const randomDirector = actualDirectors[Math.floor(Math.random() * actualDirectors.length)];
-                         if (randomDirector) {
-                            directorStylePrompt = randomDirector.prompt;
+                     let finalPrompt = options?.overridePrompt || basePrompt;
+                     if (!options?.overridePrompt) {
+                         let directorStylePrompt = '';
+                         if (selectedDirector !== '隨機導演') {
+                             const director = UNIFIED_DIRECTOR_STYLES.find(d => d.name === selectedDirector);
+                             directorStylePrompt = director ? director.prompt : '';
+                         } else {
+                             const actualDirectors = UNIFIED_DIRECTOR_STYLES.filter(d => d.name !== '隨機導演');
+                             const randomDirector = actualDirectors[Math.floor(Math.random() * actualDirectors.length)];
+                             if (randomDirector) {
+                                directorStylePrompt = randomDirector.prompt;
+                             }
                          }
+                         finalPrompt += ` ${directorStylePrompt}`;
                      }
-                     finalPrompt += ` ${directorStylePrompt}`;
-                    const result = await geminiService.generateImages(finalPrompt, selectedAspectRatio, finalReferenceImages, 4);
-                    const imagesWithAR = result.map(img => ({ ...img, aspectRatio: selectedAspectRatio }));
+                    const result = await geminiService.generateImages(finalPrompt, selectedAspectRatio, finalReferenceImages, options?.overridePrompt ? 1 : 4);
+                    const imagesWithAR = result.map(img => ({ ...img, prompt: finalPrompt, aspectRatio: selectedAspectRatio }));
                     setImages(imagesWithAR);
                     addToHistory(imagesWithAR);
                 }
@@ -371,17 +396,15 @@ const App: React.FC = () => {
                     throw new Error("請輸入提示詞或上傳圖片");
                 }
                 
-                const placeholder = referenceImages.find(img => img.isPlaceholder);
-                const finalReferenceImagesForGenerate = placeholder
-                    ? [placeholder, ...referenceImages.filter(img => !img.isPlaceholder)]
-                    : referenceImages;
-                const hasPlaceholderForGenerate = !!placeholder;
+                const placeholder = getOrCreatePlaceholder(selectedAspectRatio);
+                
+                const finalReferenceImagesForGenerate = [
+                    placeholder,
+                    ...referenceImages.filter(img => !img.isPlaceholder),
+                ];
 
-                let finalPrompt = promptText;
-                if (hasPlaceholderForGenerate) {
-                    const placeholderPrompt = "4k high-quality,將生成內容重新繪製到灰色參考圖上，如有空白加入符合內容的outpaint以適合灰色參考圖的寬高比，完全佔滿取代灰色參考圖的所有內容(包含底色背景)，僅保留灰色參考圖的寬高比";
-                    finalPrompt = `${placeholderPrompt}, ${finalPrompt}`;
-                }
+                const finalPrompt = `${placeholderPrompt}, ${promptText}`;
+
                 const result = await geminiService.generateImages(finalPrompt, selectedAspectRatio, finalReferenceImagesForGenerate, 4);
                 const imagesWithAR = result.map(img => ({ ...img, aspectRatio: selectedAspectRatio }));
                 setImages(imagesWithAR);
@@ -397,8 +420,22 @@ const App: React.FC = () => {
     }, [
         promptText, selectedAspectRatio, referenceImages, appMode, addToast, addToHistory, selectedScenes,
         characterImage, customWeaponImages, customCompanionImages, selectedWeapon, selectedVehicle, selectedCompanion,
-        hairStyle, hairColor, expression, lifePath, selectedDirector, selectedMission, nclPlaceholderImage
+        hairStyle, hairColor, expression, headwear, outerwear, innerwear, legwear, footwear, faceCyberware, bodyCyberware,
+        lifePath, selectedDirector, selectedMission, isCinematicRealism
     ]);
+
+    const handleUe5Upgrade = useCallback(async (imageToUpgrade: GeneratedImage) => {
+        if (appMode !== 'NIGHT_CITY_LEGENDS' || !imageToUpgrade.prompt) {
+            addToast('此功能僅適用於夜城傳奇模式生成的圖片', 'error');
+            return;
+        }
+        addToast('正在升級至 UE5 真實感...', 'info');
+        const cinematicPrompt = '8K 超寫實 Path-tracing ,UE 5 超逼真質感, 電影光線氛圍, ultra realistic, 8K Ray-tracing HDR Hyper-Realistic RTX-5090';
+        // Use the original prompt from the image and append the cinematic modifier
+        const upgradedPrompt = `${imageToUpgrade.prompt}, ${cinematicPrompt}`;
+        // Re-run generation with the exact same settings but the new prompt for a single image
+        await handleGenerate({ overridePrompt: upgradedPrompt });
+    }, [appMode, handleGenerate, addToast]);
 
     const handleRandomSceneGeneration = useCallback(async () => {
         if (!characterImage && !promptText) {
@@ -618,39 +655,21 @@ const App: React.FC = () => {
     const onAspectRatioSelect = (ratio: AspectRatio) => {
         setSelectedAspectRatio(ratio);
         setDrawAspectRatio(ratio);
-
-        if (appMode === 'NIGHT_CITY_LEGENDS') {
-            if (ratio === '1:1') {
-                setNclPlaceholderImage(null);
-            } else {
-                const [w, h] = ratio.split(':').map(Number);
-                const placeholderImage: UploadedImage = {
-                    src: createPlaceholderImage(ratio, '#808080'),
-                    file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
-                    isPlaceholder: true,
-                    width: w * 100,
-                    height: h * 100,
-                };
-                setNclPlaceholderImage(placeholderImage);
-            }
-            return;
-        }
-
+    
+        const [w, h] = ratio.split(':').map(Number);
+        const placeholderImage: UploadedImage = {
+            src: createPlaceholderImage(ratio, '#808080'),
+            file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
+            isPlaceholder: true,
+            width: w * 100,
+            height: h * 100,
+        };
+        
+        setNclPlaceholderImage(placeholderImage);
+    
         if (appMode === 'GENERATE') {
             const existingNonPlaceholder = referenceImages.filter(img => !img.isPlaceholder);
-            if (ratio === '1:1') {
-                setReferenceImages(existingNonPlaceholder);
-            } else {
-                 const [w, h] = ratio.split(':').map(Number);
-                 const placeholderImage: UploadedImage = {
-                     src: createPlaceholderImage(ratio, '#808080'),
-                     file: dataURLtoFile(createPlaceholderImage(ratio, '#808080'), `placeholder-${ratio}.png`),
-                     isPlaceholder: true,
-                     width: w * 100,
-                     height: h * 100,
-                 };
-                setReferenceImages([placeholderImage, ...existingNonPlaceholder]);
-            }
+            setReferenceImages([placeholderImage, ...existingNonPlaceholder]);
         }
     };
 
@@ -697,10 +716,18 @@ const App: React.FC = () => {
         setHairStyle('從掃描檔中自動偵測');
         setHairColor('從掃描檔中自動偵測');
         setExpression('從掃描檔中自動偵測');
+        setHeadwear('不指定');
+        setOuterwear('不指定');
+        setInnerwear('不指定');
+        setLegwear('不指定');
+        setFootwear('不指定');
+        setFaceCyberware('不指定');
+        setBodyCyberware('不指定');
         setLifePath('不指定');
         setSelectedDirector('隨機導演');
         setSelectedMission('隨機任務');
         setNclPlaceholderImage(null);
+        setIsCinematicRealism(false);
         addToast("設定已清除");
     }, [addToast]);
     
@@ -1027,6 +1054,7 @@ const App: React.FC = () => {
                     onSetLightboxConfig={(images, startIndex) => setLightboxConfig({ images, startIndex })}
                     onUseImage={onUseImage}
                     onSendImageToVeo={handleSendImageToVeo}
+                    onUe5Upgrade={handleUe5Upgrade}
                 />;
         }
     };
@@ -1070,10 +1098,18 @@ const App: React.FC = () => {
         hairStyle, setHairStyle,
         hairColor, setHairColor,
         expression, setExpression,
+        headwear, setHeadwear,
+        outerwear, setOuterwear,
+        innerwear, setInnerwear,
+        legwear, setLegwear,
+        footwear, setFootwear,
+        faceCyberware, setFaceCyberware,
+        bodyCyberware, setBodyCyberware,
         lifePath, setLifePath,
         selectedScenes, setSelectedScenes, onRandomSceneGenerate: handleRandomSceneGeneration,
         selectedDirector, setSelectedDirector,
         selectedMission, setSelectedMission,
+        nclPlaceholderImage, isCinematicRealism, setIsCinematicRealism,
         // VEO Props
         veoPrompt, setVeoPrompt, startFrame, onStartFrameChange: handleStartFrameChange, endFrame, onEndFrameChange: handleEndFrameChange,
         veoAspectRatio, setVeoAspectRatio, videoDuration, setVideoDuration, onGenerateVeo: handleGenerateVeo, isGeneratingVideo, isAnalyzingFrames,
@@ -1083,7 +1119,7 @@ const App: React.FC = () => {
     return (
         <div className="h-screen bg-transparent text-white flex overflow-hidden">
             <ControlPanel {...controlPanelProps} />
-            <div className="flex-1 flex flex-col relative min-w-0">
+            <div className="flex-1 flex flex-col relative min-w-0 main-content-area">
                 {!isControlPanelOpen && (
                     <button onClick={() => setIsControlPanelOpen(true)} className="md:hidden fixed top-4 left-4 z-50 p-2 bg-gray-800/80 rounded-md">
                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>

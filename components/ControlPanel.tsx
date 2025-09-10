@@ -6,7 +6,7 @@ import {
     XCircleIcon, UndoIcon, RectangleIcon, CircleIcon, ArrowUpRightIcon, CameraIcon, ImportIcon, XIcon,
     ClipboardIcon, UserCircleIcon, VideoCameraIcon, DownloadIcon
 } from './Icon';
-import { ASPECT_RATIOS, FUNCTION_BUTTONS, ART_STYLES_LIST, EDITING_EXAMPLES, VEO_ASPECT_RATIOS, VEO_MEME_PROMPTS, NIGHT_CITY_LEGENDS_SCENES, NIGHT_CITY_WEAPONS, NIGHT_CITY_VEHICLES, NIGHT_CITY_COMPANIONS, NCL_OPTIONS, UNIFIED_DIRECTOR_STYLES, NIGHT_CITY_MISSIONS } from '../constants';
+import { ASPECT_RATIOS, FUNCTION_BUTTONS, ART_STYLES_LIST, EDITING_EXAMPLES, VEO_ASPECT_RATIOS, VEO_MEME_PROMPTS, NIGHT_CITY_LEGENDS_SCENES, NIGHT_CITY_WEAPONS, NIGHT_CITY_VEHICLES, NIGHT_CITY_COMPANIONS, NCL_OPTIONS, UNIFIED_DIRECTOR_STYLES, NIGHT_CITY_MISSIONS, NCL_OUTFITS_AND_CYBERWARE } from '../constants';
 import { removeBackground } from '../services/geminiService';
 import { ColorPicker } from './ColorPicker';
 import { dataURLtoFile, getImageDimensions, getAspectRatio } from '../utils';
@@ -80,6 +80,20 @@ type ControlPanelProps = {
     setHairColor: (color: string) => void;
     expression: string;
     setExpression: (expression: string) => void;
+    headwear: string;
+    setHeadwear: (value: string) => void;
+    outerwear: string;
+    setOuterwear: (value: string) => void;
+    innerwear: string;
+    setInnerwear: (value: string) => void;
+    legwear: string;
+    setLegwear: (value: string) => void;
+    footwear: string;
+    setFootwear: (value: string) => void;
+    faceCyberware: string;
+    setFaceCyberware: (value: string) => void;
+    bodyCyberware: string;
+    setBodyCyberware: (value: string) => void;
     lifePath: string;
     setLifePath: (background: string) => void;
     selectedScenes: string[];
@@ -89,6 +103,9 @@ type ControlPanelProps = {
     setSelectedDirector: (director: string) => void;
     selectedMission: string;
     setSelectedMission: (mission: string) => void;
+    nclPlaceholderImage: UploadedImage | null;
+    isCinematicRealism: boolean;
+    setIsCinematicRealism: (value: boolean) => void;
     // VEO Props
     veoPrompt: string;
     setVeoPrompt: React.Dispatch<React.SetStateAction<string>>;
@@ -458,7 +475,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
             </Section>
             
             <div className="space-y-2 mb-4">
-                <Accordion title="世界Top100藝術風格">
+                <Accordion title="世界 Top 100 藝術風格">
                     <div className="max-h-32 overflow-y-auto pr-1 flex flex-wrap gap-1">
                         {ART_STYLES_LIST.map(style => (
                             <button key={style.en} onClick={() => handleFunctionButtonClick(style.en)} className="px-2 py-0.5 bg-slate-700/50 text-xs rounded hover:bg-fuchsia-600 border border-fuchsia-500/30">{style.zh}</button>
@@ -576,6 +593,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
                             placeholder="輸入角色描述，或留空由AI分析圖片..."
                             className="w-full p-2 bg-black/40 rounded-lg text-sm placeholder-slate-500 focus:ring-2 focus:ring-fuchsia-500 focus:outline-none resize-none min-h-[5rem] border border-cyan-500/50 mb-2"
                         />
+                        {props.nclPlaceholderImage && (
+                            <div className="mb-2">
+                                <h4 className="text-xs text-slate-400 mb-1">比例參考圖</h4>
+                                <div className="relative">
+                                    <img src={props.nclPlaceholderImage.src} className="w-full rounded-md opacity-50" alt="Aspect ratio placeholder" />
+                                    <AspectRatioOverlay width={props.nclPlaceholderImage.width} height={props.nclPlaceholderImage.height} />
+                                </div>
+                            </div>
+                        )}
                         <div className="flex justify-between items-center">
                             <h4 className="text-xs text-slate-400 mb-1">原始數據</h4>
                             <span className="text-xs text-slate-500">{props.characterImage ? 1 : 0}/1</span>
@@ -605,6 +631,29 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
                             <StyledSelect label="表情" value={props.expression} onChange={e => props.setExpression(e.target.value)}>
                                  {NCL_OPTIONS.expression.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                             </StyledSelect>
+
+                            <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.headwear.label} value={props.headwear} onChange={e => props.setHeadwear(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.headwear.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.outerwear.label} value={props.outerwear} onChange={e => props.setOuterwear(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.outerwear.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.innerwear.label} value={props.innerwear} onChange={e => props.setInnerwear(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.innerwear.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.legwear.label} value={props.legwear} onChange={e => props.setLegwear(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.legwear.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.footwear.label} value={props.footwear} onChange={e => props.setFootwear(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.footwear.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.faceCyberware.label} value={props.faceCyberware} onChange={e => props.setFaceCyberware(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.faceCyberware.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+                             <StyledSelect label={NCL_OUTFITS_AND_CYBERWARE.bodyCyberware.label} value={props.bodyCyberware} onChange={e => props.setBodyCyberware(e.target.value)}>
+                                {NCL_OUTFITS_AND_CYBERWARE.bodyCyberware.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                            </StyledSelect>
+
                             <StyledSelect label="出身" value={props.lifePath} onChange={e => props.setLifePath(e.target.value)}>
                                 {NCL_OPTIONS.lifePath.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                             </StyledSelect>
@@ -731,13 +780,25 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
                     </div>
                 </Section>
     
-                <div className="mt-auto grid grid-cols-2 gap-2">
+                <div className="mt-auto space-y-2">
                     <button onClick={props.onRandomSceneGenerate} disabled={props.isLoading} className="w-full py-3 themed-button themed-button-secondary rounded-lg font-semibold flex items-center justify-center gap-2">
                         隨選5場景
                     </button>
-                    <button onClick={() => props.onGenerate()} disabled={props.isLoading} className="w-full py-3 themed-button themed-button-shine rounded-lg font-semibold flex items-center justify-center gap-2">
-                        {props.isLoading ? '幻夢ing...' : '改裝腦機'}
-                    </button>
+                    <div className="flex items-stretch gap-2">
+                        <div className="flex items-center p-2 bg-black/30 rounded-lg flex-1">
+                             <input
+                                id="cinematic-toggle"
+                                type="checkbox"
+                                checked={props.isCinematicRealism}
+                                onChange={(e) => props.setIsCinematicRealism(e.target.checked)}
+                                className="w-4 h-4 text-fuchsia-600 bg-gray-700 border-gray-600 rounded focus:ring-fuchsia-500 focus:ring-2"
+                            />
+                            <label htmlFor="cinematic-toggle" className="text-sm cursor-pointer ml-2 whitespace-nowrap">電影真人版</label>
+                        </div>
+                        <button onClick={() => props.onGenerate()} disabled={props.isLoading} className="flex-1 py-3 themed-button themed-button-shine rounded-lg font-semibold flex items-center justify-center gap-2">
+                            {props.isLoading ? '幻夢ing...' : '改裝腦機'}
+                        </button>
+                    </div>
                 </div>
             </>
         );
@@ -1057,7 +1118,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = (props) => {
     };
     
     return (
-        <aside className={`absolute md:relative inset-y-0 left-0 z-40 transform ${isControlPanelOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out themed-panel w-80 md:w-96 flex flex-col`}>
+        <aside className={`absolute md:relative inset-y-0 left-0 z-40 transform ${isControlPanelOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out themed-panel w-80 md:w-96 2xl:w-1/4 flex flex-col`}>
              <button onClick={() => setIsControlPanelOpen(false)} className="md:hidden absolute top-4 right-4 text-slate-400 hover:text-white z-50">
                 <XIcon className="w-6 h-6" />
             </button>
